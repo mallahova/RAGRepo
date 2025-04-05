@@ -1,0 +1,12 @@
+langchain==0.3.21
+langchain-openai==0.3.11
+langchain-community==0.3.21
+langchain-huggingface==0.1.2
+faiss-gpu==1.7.2
+beautifulsoup4
+filelock
+sentence-transformers==4.0.1
+transformers==4.50.3
+numpy==1.26.4
+psutil
+matplotlib==3.10.1

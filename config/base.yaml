@@ -1,0 +1,30 @@
+filter:
+  include_extensions: [".py", ".js", ".ts", ".java", ".cpp", ".c", ".h", ".go", ".rs", ".vue",
+                       ".jsx", ".tsx", ".md", ".rst", ".txt", ".html", ".css", ".scss"]
+  
+  exclude_extensions: [".png", ".jpg", ".jpeg", ".gif", ".ico", ".svg", ".bin", ".exe", ".dll",
+                       ".so", ".dylib", ".apk", ".ipk", ".zip", ".tar", ".gz", ".o", ".obj",
+                       ".class", ".pyc"]
+
+  exclude_dirs: ["build", "dist", "node_modules", "vendor", "bin", "__pycache__", "docs/zhHans"]
+
+
+chunking:
+  chunk_size: 500
+  chunk_overlap: 200
+  splitter:
+    class: RecursiveCharacterTextSplitter
+
+embedding:
+  class: HuggingFaceEmbeddings
+  name: sentence-transformers/all-MiniLM-L6-v2
+
+# reranker:
+#   class: CohereReranker
+#   name: rerank-english-v2.0
+#   top_k: 5
+
+# generator:
+#   class: HuggingFacePipeline
+#   name: google/flan-t5-base
+#   temperature: 0.7
