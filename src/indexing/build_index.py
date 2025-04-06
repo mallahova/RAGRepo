@@ -6,8 +6,12 @@ from langchain_community.vectorstores import FAISS
 from src.core.component_registry import build_embedding_model, SPLITTERS, INDEX_DIR
 from src.core.config_loader import load_config
 from langchain_core.runnables import RunnableLambda
+from langchain_community.retrievers.bm25 import BM25Retriever
+from langchain.retrievers.ensemble import EnsembleRetriever
+
 from urllib.parse import urlparse
 import logging
+import pickle
 
 logging.basicConfig(level=logging.WARNING)
 logging.getLogger("__main__").setLevel(logging.INFO)
@@ -87,22 +91,29 @@ def build_indexing_chain(config):
 
     def embed_chunks_and_create_index(chunks):
         faiss_index = FAISS.from_documents(chunks, embedding_model)
-        return faiss_index
+        bm25_retriever = BM25Retriever.from_documents(chunks)
+        return (faiss_index, bm25_retriever)
 
-    def save_faiss_index(faiss_index):
-        faiss_index.save_local(INDEX_DIR)
-        return faiss_index
+    def save_indexes(indexes):
+        faiss_index, bm25_retriever = indexes
+        faiss_index.save_local(os.path.join(INDEX_DIR, "faiss"))
+        bm25_path = os.path.join(INDEX_DIR, "bm25.pkl")
+        with open(bm25_path, "wb") as f:
+            pickle.dump(bm25_retriever, f)
+        logger.info("Saved FAISS and BM25 indexes.")
+        return indexes
 
     chain = (
         RunnableLambda(fetch_and_clone_repo_docs)
         | RunnableLambda(split_docs_into_chunks)
         | RunnableLambda(embed_chunks_and_create_index)
-        | RunnableLambda(save_faiss_index)
+        | RunnableLambda(save_indexes)
     )
 
     return chain
 
 
+# Example usage
 if __name__ == "__main__":
     config = load_config("config/base.yaml")
     github_url = "https://github.com/viarotel-org/escrcpy.git"

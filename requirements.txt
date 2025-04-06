@@ -12,3 +12,4 @@ psutil
 matplotlib==3.10.1
 grandalf # optional for langchain graphs
 google-generativeai==0.8.4
+rank_bm25==0.2.2

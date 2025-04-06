@@ -22,11 +22,13 @@ embedding:
   # name: Snowflake/snowflake-arctic-embed-s
   # name: intfloat/multilingual-e5-large-instruct
   # name: Alibaba-NLP/gte-modernbert-base
+
   class: OpenAIEmbeddings
   name: text-embedding-3-large
 
 retriever:
-  top_k: 25  # number of documents to retrieve from the vector database
+  top_k: 50  # number of documents to retrieve from the vector database
+  dense_weight: 1 # weight for dense retriever
 
 # reranker:
 #   class: HuggingFaceCrossEncoder

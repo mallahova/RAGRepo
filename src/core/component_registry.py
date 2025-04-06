@@ -48,16 +48,15 @@ def build_embedding_model(model_config: dict):
     class_name = model_config["class"]
     embedding_cls = EMBEDDINGS[class_name]
     name = model_config.get("name", None)
-    kwargs = model_config.get("model_kwargs", {})  # Optional additional args
 
     if class_name == "OpenAIEmbeddings":
-        return embedding_cls(model=name, **kwargs)
+        return embedding_cls(model=name)
 
     if class_name == "HuggingFaceEmbeddings":
-        return embedding_cls(model_name=name, trust_remote_code=True, **kwargs)
+        return embedding_cls(model_name=name, model_kwargs={"trust_remote_code": True})
 
     if class_name == "GeminiEmbeddings":
-        return embedding_cls(model=name, **kwargs)
+        return embedding_cls(model=name)
 
     raise ValueError(f"Unknown or unsupported embedding class: {class_name}")
 

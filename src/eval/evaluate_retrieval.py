@@ -16,19 +16,20 @@ import torch
 def evaluate_recall(eval_data, retrieval_chain, low_vram=False):
     """
     Evaluates average Recall@10 over filenames for a given retrieval chain and evaluation data.
+    low_vram: If True, uses a low VRAM mode for evaluation. (Only one model loaded at a time)
     """
     total_recall = 0.0
     num_queries = 0
     if not low_vram:
-        faiss_index, _ = load_index(config)
+        retriever = load_index(config)
     else:
-        faiss_index = None
+        retriever = None
     for item in tqdm(eval_data, desc=f"Evaluating Recall@10"):
         query = item["question"]
         gold_files = set(item["files"])
         if not gold_files:
             continue  # skip queries with no gold files
-        results = retrieval_chain.invoke({"query": query, "faiss_index": faiss_index})[
+        results = retrieval_chain.invoke({"query": query, "retriever": retriever})[
             "docs"
         ]
         results = results[:10]  # Get top 10 results
