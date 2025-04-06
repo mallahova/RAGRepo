@@ -1,0 +1,1 @@
+I chose MTEB and CoIR benchmark to chose the best models for retrieval.

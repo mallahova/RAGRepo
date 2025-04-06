@@ -16,16 +16,20 @@ chunking:
 
 embedding:
   class: HuggingFaceEmbeddings
-  name: sentence-transformers/all-MiniLM-L6-v2
-
+  # name: Alibaba-NLP/gte-multilingual-base
+  name: Snowflake/snowflake-arctic-embed-l-v2.0
+  # name: Lajavaness/bilingual-embedding-small
+  # name: Snowflake/snowflake-arctic-embed-s
+  # name: intfloat/multilingual-e5-large-instruct
+  # name: Alibaba-NLP/gte-modernbert-base
 
 retriever:
-  top_k: 20  # number of documents to retrieve from the vector database
+  top_k: 25  # number of documents to retrieve from the vector database
 
-# reranker:
-#   class: CohereReranker
-#   name: rerank-english-v2.0
-#   top_k: 5
+reranker:
+  class: HuggingFaceEmbeddings
+  name:  Snowflake/snowflake-arctic-embed-l-v2.0
+  top_n: 10
 
 # generator:
 #   class: HuggingFacePipeline

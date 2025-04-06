@@ -3,15 +3,21 @@ import logging
 from pathlib import Path
 from langchain_community.document_loaders import GitLoader
 from langchain_community.vectorstores import FAISS
-from src.core.component_registry import EMBEDDINGS, SPLITTERS
+from src.core.component_registry import EMBEDDINGS, SPLITTERS, INDEX_DIR
 from src.core.config_loader import load_config
+from langchain_core.runnables import RunnableLambda
+from urllib.parse import urlparse
+import logging
 
-
-for noisy_logger in ["datasets", "sentence_transformers", "faiss"]:
-    logging.getLogger(noisy_logger).setLevel(logging.WARNING)
-
-logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
+logging.basicConfig(level=logging.WARNING)
+logging.getLogger("__main__").setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+def get_repo_dir(github_url: str) -> str:
+    path = urlparse(github_url).path
+    repo_name = Path(path).stem
+    return f".repos/{repo_name}"
 
 
 def make_file_filter(config):
@@ -24,7 +30,7 @@ def make_file_filter(config):
         This filter allows specifying which file extensions to include or exclude.
         If include_extensions is not provided, all extensions are allowed by default.
         """
-        file_path = os.path.join(*file_path.split(os.sep)[1:])
+        file_path = os.path.join(*file_path.split(os.sep)[2:])
         file_extension = "." + file_path.split(".")[-1] if "." in file_path else ""
 
         if any(file_path.startswith(d) for d in exclude_dirs):
@@ -38,24 +44,22 @@ def make_file_filter(config):
     return file_filter
 
 
-def load_github_repo_and_create_faiss_index(github_url, config: dict):
+def build_indexing_chain(config):
     """
-    Load code from a GitHub repository, split into chunks, and create a FAISS index.
-    """
-    logger.info(f"Cloning repository from {github_url}...")
-    filter_config = config.get("filter", {})
-    file_filter = make_file_filter(filter_config)
-    loader = GitLoader(
-        clone_url=github_url,
-        repo_path=".temp_repo",
-        branch="main",
-        file_filter=file_filter,
-    )
-    logger.info("Loading documents...")
-    documents = loader.load()
-    logger.info(f"Loaded {len(documents)} documents")
+    Builds a runnable indexing pipeline for loading, filtering, chunking, embedding,
+    and saving documents from a GitHub repository.
 
-    logger.info("Splitting documents into chunks...")
+    Args:
+        config (dict): Configuration dictionary with keys:
+            - "filter": File filtering rules.
+            - "chunking": Chunk size, overlap, and splitter class.
+            - "embedding": Embedding model class and name.
+
+    Returns:
+        Runnable: A LangChain-style pipeline that expects a GitHub repository URL (str)
+                  as input and returns a FAISS index after saving it locally.
+    """
+    file_filter = make_file_filter(config.get("filter", {}))
     splitter_cfg = config["chunking"]
     splitter_cls = SPLITTERS[splitter_cfg["splitter"]["class"]]
     splitter = splitter_cls(
@@ -63,27 +67,50 @@ def load_github_repo_and_create_faiss_index(github_url, config: dict):
         chunk_overlap=splitter_cfg["chunk_overlap"],
         length_function=len,
     )
-    chunks = splitter.split_documents(documents)
-    logger.info(f"Created {len(chunks)} chunks")
-
-    logger.info("Creating embeddings and FAISS index...")
     embedding_cfg = config["embedding"]
     embedding_cls = EMBEDDINGS[embedding_cfg["class"]]
-    embedding_model = embedding_cls(model_name=embedding_cfg["name"])
-    faiss_index = FAISS.from_documents(chunks, embedding_model)
+    embedding_model = embedding_cls(
+        model_name=embedding_cfg["name"],
+        model_kwargs={"trust_remote_code": True},
+    )
 
-    logger.info("FAISS index created successfully")
+    def fetch_and_clone_repo_docs(github_url):
+        repo_path = get_repo_dir(github_url)
+        loader = GitLoader(
+            clone_url=github_url,
+            repo_path=repo_path,
+            branch="main",
+            file_filter=file_filter,
+        )
+        return loader.load()
 
-    index_dir = "src/data/index"
-    faiss_index.save_local(index_dir)
-    logger.info(f"FAISS index saved to {index_dir} directory")
-    return faiss_index
+    def split_docs_into_chunks(docs):
+        chunks = splitter.split_documents(docs)
+        logger.info(f"Created {len(chunks)} chunks")
+        return chunks
+
+    def embed_chunks_and_create_index(chunks):
+        faiss_index = FAISS.from_documents(chunks, embedding_model)
+        return faiss_index
+
+    def save_faiss_index(faiss_index):
+        faiss_index.save_local(INDEX_DIR)
+        return faiss_index
+
+    chain = (
+        RunnableLambda(fetch_and_clone_repo_docs)
+        | RunnableLambda(split_docs_into_chunks)
+        | RunnableLambda(embed_chunks_and_create_index)
+        | RunnableLambda(save_faiss_index)
+    )
+
+    return chain
 
 
-# Example usage
 if __name__ == "__main__":
     config = load_config("config/base.yaml")
     github_url = "https://github.com/viarotel-org/escrcpy.git"
-    index_dir = "src/data/index"
-    faiss_index = load_github_repo_and_create_faiss_index(github_url, config)
-    print(f"FAISS index saved to {index_dir} directory")
+    indexing_chain = build_indexing_chain(config)
+    graph = indexing_chain.get_graph()
+    print(graph.print_ascii())
+    faiss_index = indexing_chain.invoke(github_url)

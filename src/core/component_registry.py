@@ -1,6 +1,6 @@
 from langchain_community.embeddings import (
     OpenAIEmbeddings,
-    SentenceTransformerEmbeddings
+    SentenceTransformerEmbeddings,
 )
 from langchain_huggingface import HuggingFaceEmbeddings
 
@@ -10,13 +10,13 @@ from langchain.text_splitter import (
     TokenTextSplitter,
 )
 from langchain_community.embeddings import (
-   #  InstructorEmbeddings,
+    #  InstructorEmbeddings,
     HuggingFaceInstructEmbeddings,
 )
-# from langchain_community_community.rerankers import (
-#     CohereRerank,
-#     SentenceTransformersRerank
-# )
+
+from langchain_community.cross_encoders import HuggingFaceCrossEncoder
+from langchain.retrievers.document_compressors import CrossEncoderReranker
+
 from langchain_community.llms import OpenAI, HuggingFaceHub
 from langchain_community.chat_models import ChatOpenAI
 from langchain_community.llms import LlamaCpp
@@ -24,7 +24,7 @@ from langchain_community.llms import LlamaCpp
 EMBEDDINGS = {
     "HuggingFaceEmbeddings": HuggingFaceEmbeddings,
     "SentenceTransformerEmbeddings": SentenceTransformerEmbeddings,
-   #  "InstructorEmbeddings": InstructorEmbeddings,
+    #  "InstructorEmbeddings": InstructorEmbeddings,
     "HuggingFaceInstructEmbeddings": HuggingFaceInstructEmbeddings,
     "OpenAIEmbeddings": OpenAIEmbeddings,
 }
@@ -35,10 +35,10 @@ SPLITTERS = {
     "TokenTextSplitter": TokenTextSplitter,
 }
 
-# RERANKERS = {
-#     "CohereRerank": CohereRerank,
-#     "SentenceTransformersRerank": SentenceTransformersRerank,
-# }
+RERANKERS = {
+    # "CohereRerank": CohereRerank,
+    "HuggingFaceCrossEncoder": HuggingFaceCrossEncoder,
+}
 
 GENERATORS = {
     "OpenAI": OpenAI,
@@ -46,3 +46,5 @@ GENERATORS = {
     "HuggingFaceHub": HuggingFaceHub,
     "LlamaCpp": LlamaCpp,
 }
+
+INDEX_DIR = "src/data/index"
