@@ -1,7 +1,7 @@
 from langchain_community.vectorstores import FAISS
 from langchain_core.runnables import RunnableLambda
 from src.core.config_loader import load_config
-from src.core.component_registry import EMBEDDINGS, RERANKERS, INDEX_DIR
+from src.core.component_registry import build_embedding_model, RERANKERS, INDEX_DIR
 from langchain.retrievers.document_compressors import CrossEncoderReranker
 
 
@@ -9,11 +9,7 @@ def load_index(config: dict):
     """
     Loads a FAISS index from the specified directory.
     """
-    embedding_cfg = config["embedding"]
-    embedding_cls = EMBEDDINGS[embedding_cfg["class"]]
-    embedding_model = embedding_cls(
-        model_name=embedding_cfg["name"], model_kwargs={"trust_remote_code": True}
-    )
+    embedding_model = build_embedding_model(config["embedding"])
 
     return (
         FAISS.load_local(

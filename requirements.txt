@@ -11,4 +11,4 @@ numpy==1.26.4
 psutil
 matplotlib==3.10.1
 grandalf # optional for langchain graphs
-langchain_google_genai
+google-generativeai==0.8.4

@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 from langchain_community.document_loaders import GitLoader
 from langchain_community.vectorstores import FAISS
-from src.core.component_registry import EMBEDDINGS, SPLITTERS, INDEX_DIR
+from src.core.component_registry import build_embedding_model, SPLITTERS, INDEX_DIR
 from src.core.config_loader import load_config
 from langchain_core.runnables import RunnableLambda
 from urllib.parse import urlparse
@@ -68,14 +68,7 @@ def build_indexing_chain(config):
         length_function=len,
     )
     embedding_cfg = config["embedding"]
-    embedding_cls = EMBEDDINGS[embedding_cfg["class"]]
-    if embedding_cfg["class"] == "HuggingFaceEmbeddings":
-        embedding_model = embedding_cls(
-            model_name=embedding_cfg["name"],
-            model_kwargs={"trust_remote_code": True},
-        )
-    else:
-        embedding_model = embedding_cls(model=embedding_cfg["name"])
+    embedding_model = build_embedding_model(embedding_cfg)
 
     def fetch_and_clone_repo_docs(github_url):
         repo_path = get_repo_dir(github_url)

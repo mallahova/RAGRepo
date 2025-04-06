@@ -22,16 +22,16 @@ embedding:
   # name: Snowflake/snowflake-arctic-embed-s
   # name: intfloat/multilingual-e5-large-instruct
   # name: Alibaba-NLP/gte-modernbert-base
-  class: GoogleGenerativeAIEmbeddings
-  name: gemini-embedding-exp-03-07
+  class: OpenAIEmbeddings
+  name: text-embedding-3-large
 
 retriever:
   top_k: 25  # number of documents to retrieve from the vector database
 
-reranker:
-  class: HuggingFaceCrossEncoder
-  name:  BAAI/bge-reranker-large
-  top_n: 10
+# reranker:
+#   class: HuggingFaceCrossEncoder
+#   name:  BAAI/bge-reranker-large
+#   top_n: 10
 
 # generator:
 #   class: HuggingFacePipeline

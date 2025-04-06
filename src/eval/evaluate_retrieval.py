@@ -21,6 +21,8 @@ def evaluate_recall(eval_data, retrieval_chain, low_vram=False):
     num_queries = 0
     if not low_vram:
         faiss_index, _ = load_index(config)
+    else:
+        faiss_index = None
     for item in tqdm(eval_data, desc=f"Evaluating Recall@10"):
         query = item["question"]
         gold_files = set(item["files"])
@@ -55,4 +57,4 @@ if __name__ == "__main__":
     retrieval_chain = build_retrieval_chain(config)
     with open("src/data/eval/escrcpy-commits-generated.json") as f:
         eval_data = json.load(f)
-    evaluate_recall(eval_data, retrieval_chain, low_vram=True)
+    evaluate_recall(eval_data, retrieval_chain, low_vram=False)
