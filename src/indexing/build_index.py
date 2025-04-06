@@ -69,10 +69,13 @@ def build_indexing_chain(config):
     )
     embedding_cfg = config["embedding"]
     embedding_cls = EMBEDDINGS[embedding_cfg["class"]]
-    embedding_model = embedding_cls(
-        model_name=embedding_cfg["name"],
-        model_kwargs={"trust_remote_code": True},
-    )
+    if embedding_cfg["class"] == "HuggingFaceEmbeddings":
+        embedding_model = embedding_cls(
+            model_name=embedding_cfg["name"],
+            model_kwargs={"trust_remote_code": True},
+        )
+    else:
+        embedding_model = embedding_cls(model=embedding_cfg["name"])
 
     def fetch_and_clone_repo_docs(github_url):
         repo_path = get_repo_dir(github_url)

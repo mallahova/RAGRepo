@@ -15,20 +15,22 @@ chunking:
     class: RecursiveCharacterTextSplitter
 
 embedding:
-  class: HuggingFaceEmbeddings
+  # class: HuggingFaceEmbeddings
+  # name: Snowflake/snowflake-arctic-embed-l-v2.0
   # name: Alibaba-NLP/gte-multilingual-base
-  name: Snowflake/snowflake-arctic-embed-l-v2.0
   # name: Lajavaness/bilingual-embedding-small
   # name: Snowflake/snowflake-arctic-embed-s
   # name: intfloat/multilingual-e5-large-instruct
   # name: Alibaba-NLP/gte-modernbert-base
+  class: GoogleGenerativeAIEmbeddings
+  name: gemini-embedding-exp-03-07
 
 retriever:
   top_k: 25  # number of documents to retrieve from the vector database
 
 reranker:
-  class: HuggingFaceEmbeddings
-  name:  Snowflake/snowflake-arctic-embed-l-v2.0
+  class: HuggingFaceCrossEncoder
+  name:  BAAI/bge-reranker-large
   top_n: 10
 
 # generator:

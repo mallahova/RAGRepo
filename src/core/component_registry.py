@@ -21,11 +21,15 @@ from langchain_community.llms import OpenAI, HuggingFaceHub
 from langchain_community.chat_models import ChatOpenAI
 from langchain_community.llms import LlamaCpp
 
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+
+
 EMBEDDINGS = {
     "HuggingFaceEmbeddings": HuggingFaceEmbeddings,
-    "SentenceTransformerEmbeddings": SentenceTransformerEmbeddings,
+    "GoogleGenerativeAIEmbeddings": GoogleGenerativeAIEmbeddings,
+    # "SentenceTransformerEmbeddings": SentenceTransformerEmbeddings,
     #  "InstructorEmbeddings": InstructorEmbeddings,
-    "HuggingFaceInstructEmbeddings": HuggingFaceInstructEmbeddings,
+    # "HuggingFaceInstructEmbeddings": HuggingFaceInstructEmbeddings,
     "OpenAIEmbeddings": OpenAIEmbeddings,
 }
 
@@ -43,6 +47,7 @@ RERANKERS = {
 GENERATORS = {
     "OpenAI": OpenAI,
     "ChatOpenAI": ChatOpenAI,
+    # "GeminiChat": GeminiChat,
     "HuggingFaceHub": HuggingFaceHub,
     "LlamaCpp": LlamaCpp,
 }

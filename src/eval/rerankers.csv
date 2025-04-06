@@ -1,9 +1,3 @@
-class, name, size, dim
-HuggingFaceEmbeddings, Snowflake/snowflake-arctic-embed-l-v2.0, 568M, 1024
+class, name, size
+HuggingFaceCrossEncoder, BAAI/bge-reranker-large, 650M 
 
-
-BAAI/bge-m3
-HuggingFaceEmbeddings, Alibaba-NLP/gte-multilingual-base,  305M, 768
-HuggingFaceEmbeddings, Lajavaness/bilingual-embedding-small, 117M, 384
-HuggingFaceEmbeddings, Snowflake/snowflake-arctic-embed-s, 33M, 384
-HuggingFaceEmbeddings, Alibaba-NLP/gte-modernbert-base, 149M, 768
