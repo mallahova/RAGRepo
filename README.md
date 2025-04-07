@@ -15,14 +15,7 @@ export PYTHONPATH=.
 python -m pip install -r requirements.txt
 ```
 
-If you're using APIs (OpenAI, Cohere, Google, etc.), add your keys in a `.env` file at the project root:
-
-```
-OPENAI_API_KEY=...
-COHERE_API_KEY=...
-```
-
----
+If you're using APIs (OpenAI, Cohere, Google, etc.), add your keys in a `.env` file at the project root. (See `.env.example`)
 
 ## 🧠 Overview
 
