@@ -30,8 +30,10 @@ RAGRepo offers a full Retrieval-Augmented Generation pipeline for question answe
 - **Direct GitHub indexing** – build indexes straight from repo URLs  
 - **Hybrid retrieval** – combines FAISS and BM25 with adjustable weighting  
 - **Query expansion** and **reranking** options  
-- **Modular config system** – define LLMs, embeddings, and retrievers via YAML (e.g. `config/base.yaml`)  
-- **Custom wrapper support** – e.g. `src/core/custom_wrappers/gemini_wrapper.py` for non-standard providers  
+- **Modular config system** – define LLMs, embeddings, and retrievers via YAML (e.g. [config/base.yaml](https://github.com/mallahova/RAGRepo/blob/main/config/base.yaml)  
+)  
+- **Custom wrapper support** – e.g. [src/core/custom_wrappers/gemini_wrapper.py](https://github.com/mallahova/RAGRepo/blob/main/src/core/custom_wrappers/gemini_wrapper.py)  
+` for non-standard providers  
 - **Evaluation tools** – measure retrieval with Recall@10 and latency metrics
 
 
@@ -39,8 +41,8 @@ RAGRepo offers a full Retrieval-Augmented Generation pipeline for question answe
 
 ## 📊 Evaluation Dataset
 
-This dataset benchmarks retrieval on the `https://github.com/viarotel-org/escrcpy` repo.  
-Path: `src/data/eval/escrcpy-commits-generated.json`  
+This dataset benchmarks retrieval on the `https://github.com/viarotel-org/escrcpy` repo: [src/data/eval/escrcpy-commits-generated.json](https://github.com/mallahova/RAGRepo/blob/main/src/data/eval/escrcpy-commits-generated.json)  
+ 
 Includes natural language queries and file-level answers.  
 Note: It was auto-generated and may contain minor inconsistencies.
 
@@ -48,7 +50,8 @@ Note: It was auto-generated and may contain minor inconsistencies.
 
 ## 📈 Reports & Trade-offs
 
-Performance analysis and experiment results are available in: `src/eval/notebooks/rag_setups_evaluation_report.md`.
+Performance analysis and experiment results are available in:[src/eval/notebooks/rag_setups_evaluation_report.md](https://github.com/mallahova/RAGRepo/blob/main/src/eval/notebooks/rag_setups_evaluation_report.md)  
+.
 
 
 Key aspects explored:
@@ -58,7 +61,8 @@ Key aspects explored:
 - Impact of rerankers  
 - Effectiveness of query expansion
 
-> ⚠️ One file was missing from the repo and excluded from the evaluation set (checkout  `src/eval/notebooks/explore_eval.ipynb`)
+> ⚠️ One file was missing from the repo and excluded from the evaluation set (checkout  [src/eval/notebooks/explore_eval.ipynb](https://github.com/mallahova/RAGRepo/blob/main/src/eval/notebooks/explore_eval.ipynb)  
+)
 
 ---
 
@@ -66,13 +70,14 @@ Key aspects explored:
 
 **Recommended setups:**
 
-- **Closed Source** (`config/closed_source`):
-  -  *Best overall (but costly), Recall@10 = 0.74*: OpenAI small embedding + Cohere reranker  
-  -  *Strong performance, lower cost, Recall@10 = 0.72*: OpenAI large embedding, no reranker
+- **Closed Source**:
+  - *Best overall (but costly), Recall@10 = 0.74*: [OpenAI small embedding + Cohere reranker](https://github.com/mallahova/RAGRepo/blob/main/config/closed_source/best_performance_with_reranker.yaml)  
+  - *Strong performance, lower cost, Recall@10 = 0.72*: [OpenAI large embedding, no reranker](https://github.com/mallahova/RAGRepo/blob/main/config/closed_source/high_performance_no_reranker.yaml)
 
-- **Open Source** (`config/open_source`):
-  -  *Best open option, Recall@10 = 0.67*: gte_multilingual_base + bge-reranker-v2-m3  
-  -  *Fastest option, Recall@10 = 0.66*: gte_multilingual_base
+- **Open Source**:
+  - *Best open option, Recall@10 = 0.67*: [gte_multilingual_base + bge-reranker-v2-m3](https://github.com/mallahova/RAGRepo/blob/main/config/open_source/decent_performance_with_reranker.yaml)  
+  - *Fastest option, Recall@10 = 0.66*: [gte_multilingual_base](https://github.com/mallahova/RAGRepo/blob/main/config/open_source/lightweight_no_reranker.yaml)
+
 
 > Prebuilt indexes for the `escrcpy` repository are included for all recommended configs.
 
