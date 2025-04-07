@@ -94,7 +94,9 @@ if __name__ == "__main__":
         default="config/base.yaml",
         help="Path to the config file.",
     )
-    parser.add_argument("--low-vram", default=False, help="Enable low VRAM mode.")
+    parser.add_argument(
+        "--low_vram", default=False, action="store_true", help="Enable low VRAM mode."
+    )
     args = parser.parse_args()
     config = load_config(args.config_path)
     retrieval_chain = build_retrieval_chain(config)

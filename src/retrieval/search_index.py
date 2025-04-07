@@ -8,6 +8,9 @@ from langchain_core.output_parsers import StrOutputParser
 from src.core.loaders.config_loader import load_config
 from src.core.loaders.rag_loaders import load_index, load_generator, load_reranker
 
+import torch
+import gc
+
 
 def build_retrieval_chain(config):
     """
@@ -36,6 +39,10 @@ def build_retrieval_chain(config):
 
         top_k_val = config["retriever"]["top_k"]
         docs = hybrid_retriever.invoke(query)[:top_k_val]
+
+        del hybrid_retriever
+        gc.collect()
+        torch.cuda.empty_cache()
         return {"docs": docs, "query": query}
 
     def rerank_docs(inputs):
@@ -52,6 +59,8 @@ def build_retrieval_chain(config):
                 model=reranker_model, top_n=reranker_cfg["top_n"]
             )
         reranked_docs = compressor.compress_documents(docs, query)
+        gc.collect()
+        torch.cuda.empty_cache()
         return {"docs": reranked_docs, "query": query}
 
     chain = []
