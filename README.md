@@ -11,7 +11,7 @@ Designed for real-world trade-offs between speed, accuracy, and openness.
 ```bash
 conda create -n ragrepo python=3.10.16 -y
 conda activate ragrepo
-EXPORT PYTHONPATH=.
+export PYTHONPATH=.
 python -m pip install -r requirements.txt
 ```
 
