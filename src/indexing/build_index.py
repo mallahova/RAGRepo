@@ -1,114 +1,6 @@
-import os
-import logging
-import pickle
-import re
-from pathlib import Path
-from urllib.parse import urlparse
-import argparse
-
-
-from langchain_community.document_loaders import GitLoader
-from langchain_community.vectorstores import FAISS
-from langchain_core.runnables import RunnableLambda
-from langchain_community.retrievers.bm25 import BM25Retriever
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-from src.core.component_registry import build_embedding_model, INDEX_DIR
+from src.indexing.index_builder import IndexBuilder
 from src.core.loaders.config_loader import load_config
-from src.indexing.code_chunker import detect_language_from_path
-from src.core.loaders.rag_loaders import get_index_subdir
-from src.indexing.file_filter import make_file_filter
-
-
-logging.basicConfig(level=logging.WARNING)
-logging.getLogger("__main__").setLevel(logging.INFO)
-logger = logging.getLogger(__name__)
-
-
-def get_repo_dir(github_url: str) -> str:
-    path = urlparse(github_url).path
-    repo_name = Path(path).stem
-    return f".repos/{repo_name}"
-
-
-def strip_links(text):
-    # Removes http/https URLs from text
-    return re.sub(r"https?://\S+", "", text)
-
-
-def build_indexing_chain(config):
-    """
-    Builds a runnable indexing pipeline for loading, filtering, chunking, embedding,
-    and saving documents from a GitHub repository.
-
-    Args:
-        config (dict): Configuration dictionary with keys:
-            - "filter": File filtering rules.
-            - "chunking": Chunk size, overlap, and splitter class.
-            - "embedding": Embedding model class and name.
-
-    Returns:
-        Runnable: A LangChain-style pipeline that expects a GitHub repository URL (str)
-                  as input and returns a FAISS BM25 indexes after saving it locally.
-    """
-    file_filter = make_file_filter(config.get("filter", {}))
-    splitter_cfg = config["chunking"]
-    embedding_cfg = config["embedding"]
-    embedding_model = build_embedding_model(embedding_cfg)
-
-    def fetch_and_clone_repo_docs(github_url):
-        repo_path = get_repo_dir(github_url)
-        loader = GitLoader(
-            clone_url=github_url,
-            repo_path=repo_path,
-            branch="main",
-            file_filter=file_filter,
-        )
-        return loader.load()
-
-    def split_docs_into_chunks(docs):
-        all_chunks = []
-        for doc in docs:
-            cleaned_text = strip_links(doc.page_content)
-            doc.page_content = cleaned_text
-            source_path = doc.metadata.get("source", "")
-            lang = detect_language_from_path(source_path)
-
-            splitter = RecursiveCharacterTextSplitter.from_language(
-                language=lang,
-                chunk_size=splitter_cfg["chunk_size"],
-                chunk_overlap=splitter_cfg["chunk_overlap"],
-            )
-
-            chunks = splitter.split_documents([doc])
-            all_chunks.extend(chunks)
-
-        logger.info(f"Created {len(all_chunks)} code-aware chunks")
-        return all_chunks
-
-    def embed_chunks_and_create_index(chunks):
-        faiss_index = FAISS.from_documents(chunks, embedding_model)
-        bm25_retriever = BM25Retriever.from_documents(chunks)
-        return (faiss_index, bm25_retriever)
-
-    def save_indexes(indexes):
-        faiss_index, bm25_retriever = indexes
-        embed_config_name = get_index_subdir(config)
-        faiss_index.save_local(os.path.join(INDEX_DIR, embed_config_name, "faiss"))
-        bm25_path = os.path.join(INDEX_DIR, embed_config_name, "bm25.pkl")
-        with open(bm25_path, "wb") as f:
-            pickle.dump(bm25_retriever, f)
-        logger.info("Saved FAISS and BM25 indexes.")
-        return indexes
-
-    chain = (
-        RunnableLambda(fetch_and_clone_repo_docs)
-        | RunnableLambda(split_docs_into_chunks)
-        | RunnableLambda(embed_chunks_and_create_index)
-        | RunnableLambda(save_indexes)
-    )
-
-    return chain
+import argparse
 
 
 if __name__ == "__main__":
@@ -118,22 +10,23 @@ if __name__ == "__main__":
     parser.add_argument(
         "--config_path",
         type=str,
-        required=False,
         default="config/base.yaml",
         help="Path to YAML config file",
     )
     parser.add_argument(
         "--repo_url",
         type=str,
-        required=False,
         default="https://github.com/viarotel-org/escrcpy.git",
         help="GitHub repository URL",
     )
 
     args = parser.parse_args()
     config = load_config(args.config_path)
-    indexing_chain = build_indexing_chain(config)
+    builder = IndexBuilder(config)
+    indexing_chain = builder.build_indexing_chain()
+
     graph = indexing_chain.get_graph()
     print(graph.print_ascii())
+
     indexing_chain.invoke(args.repo_url)
     print(f"Indexing completed for {args.repo_url}")

@@ -11,7 +11,6 @@ Designed for real-world trade-offs between speed, accuracy, and openness.
 ```bash
 conda create -n ragrepo python=3.10.16 -y
 conda activate ragrepo
-export PYTHONPATH=.
 python -m pip install -r requirements.txt
 ```
 
@@ -104,7 +103,7 @@ python src/retrieval/search_index.py --query "<your question>" --config_path <co
 LLM-generated answer summaries for retrieved code:
 
 ```bash
-python src/generation/generate.py --query "<your question>" --config_path <config_path>
+python src/generation/answer_query.py --query "<your question>" --config_path <config_path>
 ```
 
 ---
@@ -118,7 +117,7 @@ python src/eval/evaluate_retrieval.py \
   --dataset_path <dataset_path>
   --config_path <config_path>
 ```
-
+> Note: You can optionally pass the --low_vram flag. This will reduce memory usage by keeping only one model in VRAM at a time, but it will increase evaluation time.
 ---
 ## 🌱 Future Enhancements
 
