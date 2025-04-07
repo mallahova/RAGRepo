@@ -1,11 +1,12 @@
-# RAGRepo
 
-**Retrieval-Augmented Generation (RAG) system for code repositories.**  
-Flexible, configurable, and optimized for practical trade-offs between speed, accuracy, and openness.
+# RAGRepo 🔍
+
+**A flexible Retrieval-Augmented Generation (RAG) system for exploring and answering questions about code repositories.**  
+Designed for real-world trade-offs between speed, accuracy, and openness.
 
 ---
 
-## ⚡ Quickstart
+## 🚀 Quickstart
 
 ```bash
 conda create -n ragrepo python=3.10.16 -y
@@ -13,7 +14,7 @@ conda activate ragrepo
 python -m pip install -r requirements.txt
 ```
 
-If using APIs (OpenAI, Cohere, Google, etc.), create a `.env` file in the root directory:
+If you're using APIs (OpenAI, Cohere, Google, etc.), add your keys in a `.env` file at the project root:
 
 ```
 OPENAI_API_KEY=...
@@ -22,92 +23,108 @@ COHERE_API_KEY=...
 
 ---
 
-## 📚 Overview
+## 🧠 Overview
 
-This repository provides a complete RAG pipeline for question answering over codebases. Key features include:
+RAGRepo offers a full Retrieval-Augmented Generation pipeline for question answering over GitHub codebases. Key features include:
 
-- **Repo-based indexing**: Build indexes directly from GitHub URLs  
-- **Hybrid retrieval**: FAISS + BM25 with tunable weighting  
-- **Query expansion** and **reranking** support  
-- **Config-driven**: Swap models (LLMs, embeddings, retrievers) via YAML (e.g. ```config/base.yaml```)
-- **Custom model wrappers** for unsupported providers (checkout `src/core/custom_wrappers/gemini_wrapper.py`)  
-- **Evaluation tools** for retrieval quality using Recall@10 and latency
+- **Direct GitHub indexing** – build indexes straight from repo URLs  
+- **Hybrid retrieval** – combines FAISS and BM25 with adjustable weighting  
+- **Query expansion** and **reranking** options  
+- **Modular config system** – define LLMs, embeddings, and retrievers via YAML (e.g. `config/base.yaml`)  
+- **Custom wrapper support** – e.g. `src/core/custom_wrappers/gemini_wrapper.py` for non-standard providers  
+- **Evaluation tools** – measure retrieval with Recall@10 and latency metrics
+
 
 ---
 
-## 🔩 Pipeline
+## 📊 Evaluation Dataset
 
-### 1. 🏗️ Build the Index
+This dataset benchmarks retrieval on the `https://github.com/viarotel-org/escrcpy` repo.  
+Path: `src/data/eval/escrcpy-commits-generated.json`  
+Includes natural language queries and file-level answers.  
+Note: It was auto-generated and may contain minor inconsistencies.
 
-Create the hybrid FAISS + BM25 index from a GitHub repo:
+---
+
+## 📈 Reports & Trade-offs
+
+Performance analysis and experiment results are available in: `src/eval/notebooks/rag_setups_evaluation_report.md`.
+
+
+Key aspects explored:
+
+- Open-source vs. closed-source model trade-offs  
+- Latency vs. retrieval quality  
+- Impact of rerankers  
+- Effectiveness of query expansion
+
+> ⚠️ One file was missing from the repo and excluded from the evaluation set (checkout  `src/eval/notebooks/explore_eval.ipynb`)
+
+---
+
+## 🏆 Results
+
+**Recommended setups:**
+
+- **Closed Source** (`config/closed_source`):
+  -  *Best overall (but costly), Recall@10 = 0.74*: OpenAI small embedding + Cohere reranker  
+  -  *Strong performance, lower cost, Recall@10 = 0.72*: OpenAI large embedding, no reranker
+
+- **Open Source** (`config/open_source`):
+  -  *Best open option, Recall@10 = 0.67*: gte_multilingual_base + bge-reranker-v2-m3  
+  -  *Fastest option, Recall@10 = 0.66*: gte_multilingual_base
+
+> Prebuilt indexes for the `escrcpy` repository are included for all recommended configs.
+
+---
+
+## 🔄 Pipeline
+
+### 1. Index the Repository
+
+Build a hybrid FAISS + BM25 index from a GitHub repo:
 
 ```bash
-python src/indexing/build_index.py --repo_url <URL>
+python src/indexing/build_index.py --repo_url <URL.git> --config_path <config_path>
 ```
 
 ---
 
-### 2. 🔍 Retrieve Only *(No LLM Generation)*
+### 2. Retrieve
 
-For systems that only need relevant documents or file locations:
+To retrieve relevant documents or file paths:
 
 ```bash
-python src/retrieval/search_index.py --query "<your question>" --config config/base.yaml
+python src/retrieval/search_index.py --query "<your question>" --config_path <config_path>
 ```
 
 ---
 
-### 3. 💬 Retrieve and Generate
+### 3. Retrieve + Generate
 
-If you want full RAG output including LLM-generated responses:
+LLM-generated answer summaries for retrieved code:
 
 ```bash
-python src/generation/generate.py --config config/base.yaml
+python src/generation/generate.py --query "<your question>" --config_path <config_path>
 ```
 
 ---
 
-### 4. 📈 Evaluate Retrieval
+### 4. Evaluate Retrieval Performance
 
-Evaluate Recall@10 using the provided QA dataset:
+To evaluate Recall@10 with the built-in QA dataset:
 
 ```bash
 python src/eval/evaluate_retrieval.py \
-  --dataset_path src/data/eval/escrcpy-commits-generated.json \
-  --config config/base.yaml
+  --dataset_path <dataset_path>
+  --config_path <config_path>
 ```
 
 ---
+## 🌱 Future Enhancements
 
-## 📊 Reports & Trade-offs
+Planned enhancements:
 
-Performance analysis and insights available in:
-
-
-
-Explored dimensions include:
-
-- Latency vs. retrieval quality  
-- Open- vs. closed-source models  
-- With vs. without rerankers  
-- Effects of query expansion
-
-> Note: One missing file in the repo was removed from the evaluation set. See `src/eval/notebooks/explore_eval.ipynb` for details.
-
----
-
-## 📌 Evaluation Dataset
-
-Evaluates retrieval for `https://github.com/viarotel-org/escrcpy` repository.
-Path: `src/data/eval/escrcpy-commits-generated.json`  
-Includes natural language queries and file-level answers.  
-Automatically generated — may contain minor inconsistencies.
-
-
----
-
-## 🛠️ Future Enhancements
-
-- Streamlit application* for interactive use
-- Support and evaluation for more embedding, reranker, and LLM models  
-- Advanced RAG strategies  
+- Streamlit-based UI for interactive exploration  
+- Expanded model support (embeddings, rerankers, LLMs)  
+- More advanced RAG techniques and strategies

@@ -1,21 +1,23 @@
+import os
+import logging
+import pickle
+import re
+from pathlib import Path
+from urllib.parse import urlparse
+import argparse
+
+
 from langchain_community.document_loaders import GitLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.runnables import RunnableLambda
 from langchain_community.retrievers.bm25 import BM25Retriever
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-import os
-import logging
-from pathlib import Path
-from urllib.parse import urlparse
-import logging
-import pickle
-import re
-
 from src.core.component_registry import build_embedding_model, INDEX_DIR
 from src.core.loaders.config_loader import load_config
 from src.indexing.code_chunker import detect_language_from_path
 from src.core.loaders.rag_loaders import get_index_subdir
+from src.indexing.file_filter import make_file_filter
 
 
 logging.basicConfig(level=logging.WARNING)
@@ -27,36 +29,6 @@ def get_repo_dir(github_url: str) -> str:
     path = urlparse(github_url).path
     repo_name = Path(path).stem
     return f".repos/{repo_name}"
-
-
-def strip_links(text):
-    # Removes http/https URLs from text
-    return re.sub(r"https?://\S+", "", text)
-
-
-def make_file_filter(config):
-    include_extensions = set(config.get("include_extensions", []))
-    exclude_extensions = set(config.get("exclude_extensions", []))
-    exclude_dirs = set(config.get("exclude_dirs", []))
-
-    def file_filter(file_path: str) -> bool:
-        """
-        This filter allows specifying which file extensions to include or exclude.
-        If include_extensions is not provided, all extensions are allowed by default.
-        """
-
-        file_path = os.path.join(*file_path.split(os.sep)[2:])
-        file_extension = "." + file_path.split(".")[-1] if "." in file_path else ""
-
-        if any(file_path.startswith(d) for d in exclude_dirs):
-            return False
-        if any(file_path.endswith(ext) for ext in exclude_extensions):
-            return False
-        if include_extensions:
-            return file_extension in include_extensions
-        return True
-
-    return file_filter
 
 
 def strip_links(text):
@@ -77,7 +49,7 @@ def build_indexing_chain(config):
 
     Returns:
         Runnable: A LangChain-style pipeline that expects a GitHub repository URL (str)
-                  as input and returns a FAISS index after saving it locally.
+                  as input and returns a FAISS BM25 indexes after saving it locally.
     """
     file_filter = make_file_filter(config.get("filter", {}))
     splitter_cfg = config["chunking"]
@@ -139,11 +111,29 @@ def build_indexing_chain(config):
     return chain
 
 
-# Example usage
 if __name__ == "__main__":
-    config = load_config("config/base.yaml")
-    github_url = "https://github.com/viarotel-org/escrcpy.git"
+    parser = argparse.ArgumentParser(
+        description="Build FAISS + BM25 index from GitHub repo"
+    )
+    parser.add_argument(
+        "--config_path",
+        type=str,
+        required=False,
+        default="config/base.yaml",
+        help="Path to YAML config file",
+    )
+    parser.add_argument(
+        "--repo_url",
+        type=str,
+        required=False,
+        default="https://github.com/viarotel-org/escrcpy.git",
+        help="GitHub repository URL",
+    )
+
+    args = parser.parse_args()
+    config = load_config(args.config_path)
     indexing_chain = build_indexing_chain(config)
     graph = indexing_chain.get_graph()
     print(graph.print_ascii())
-    index = indexing_chain.invoke(github_url)
+    indexing_chain.invoke(args.repo_url)
+    print(f"Indexing completed for {args.repo_url}")

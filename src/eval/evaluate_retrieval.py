@@ -89,14 +89,14 @@ if __name__ == "__main__":
         help="Path to the evaluation dataset JSON file.",
     )
     parser.add_argument(
-        "--config",
+        "--config_path",
         type=str,
         default="config/base.yaml",
         help="Path to the config file.",
     )
     parser.add_argument("--low-vram", default=False, help="Enable low VRAM mode.")
     args = parser.parse_args()
-    config = load_config(args.config)
+    config = load_config(args.config_path)
     retrieval_chain = build_retrieval_chain(config)
 
     with open(args.dataset_path, "r") as f:

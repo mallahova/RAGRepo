@@ -1,53 +1,28 @@
 filter:
-  # include_extensions: [".py", ".js", ".ts", ".java", ".cpp", ".c", ".h", ".go", ".rs", ".vue",
-  #                      ".jsx", ".tsx", ".md", ".rst", ".txt", ".html", ".css", ".scss"]
-
   exclude_extensions: [".png", ".jpg", ".jpeg", ".gif", ".ico", ".svg", ".bin", ".exe", ".dll",
                        ".so", ".dylib", ".apk", ".ipk", ".zip", ".tar", ".gz", ".o", ".obj",
                        ".class", ".pyc"]
-
   exclude_dirs: ["build", "dist", "node_modules", "vendor", "bin", "__pycache__", "docs/zhHans"]
-  
+
+
 chunking:
+  chunk_overlap: 100
   chunk_size: 800
-  chunk_overlap: 50
   splitter:
     class: RecursiveCharacterTextSplitter
 
 embedding:
-  # class: HuggingFaceEmbeddings
-  # name: Snowflake/snowflake-arctic-embed-l-v2.0
-  # name: Alibaba-NLP/gte-multilingual-base
-  # name: Lajavaness/bilingual-embedding-small
-  # name: Snowflake/snowflake-arctic-embed-s
-  # name: intfloat/multilingual-e5-large-instruct
-  # name: Alibaba-NLP/gte-modernbert-base
-
-  class: OpenAIEmbeddings
-  name: text-embedding-3-small
-
-  # class: GeminiEmbeddings
-  # name: models/gemini-embedding-exp-03-07
+  class: HuggingFaceEmbeddings
+  name: Alibaba-NLP/gte-multilingual-base
 
 retriever:
-  top_k: 50  # number of documents to retrieve from the vector database
-  dense_weight: 1 # weight for dense retriever
-  query_expansion: True
-  use_reranker: False
-
-  
-
-reranker:
-  # class: HuggingFaceCrossEncoder
-  # name:  BAAI/bge-reranker-large
-  # name: BAAI/bge-reranker-v2-m3
-  # name: mixedbread-ai/mxbai-rerank-base-v1
-
-  class: CohereRerank
-  name: rerank-v3.5
-  top_n: 15
+  dense_weight: 1
+  query_expansion: false
+  top_k: 50
+  use_reranker: false
 
 generator:
   class: ChatOpenAI
   name: gpt-4o-mini
   temperature: 0.3
+

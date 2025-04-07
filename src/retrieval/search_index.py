@@ -1,3 +1,5 @@
+import argparse
+
 from langchain_core.runnables import RunnableLambda, RunnableSequence
 from langchain.retrievers.document_compressors import CrossEncoderReranker
 from langchain.prompts import PromptTemplate
@@ -6,28 +8,22 @@ from langchain_core.output_parsers import StrOutputParser
 from src.core.loaders.config_loader import load_config
 from src.core.loaders.rag_loaders import load_index, load_generator, load_reranker
 
-import gc
-import torch
-
 
 def build_retrieval_chain(config):
     """
     Returns a LangChain Runnable that retrieves documents using a hybrid retriever.
-    Optionally applies reranking if specified in the config.
+    Optionally applies query expanding and reranking if specified in the config.
     """
 
     def expand_query(inputs):
         query = inputs["query"]
         hybrid_retriever = inputs.get("retriever", None)
         llm = load_generator(config)
-        # prompt = PromptTemplate.from_template(
-        #     "Expand this code-related search query using synonyms and technical terms. Return only the expanded query.\nQuery: {query}\nExpanded:"
-        # )
         prompt = PromptTemplate.from_template(
             "You are a helpful coding expert. Provide an example short answer to the given question, that might be found in a code repository. Question: {query}"
         )
-        expanded_query = prompt | llm | StrOutputParser()
-        expanded_query = expanded_query.invoke({"query": query})
+        expanded_query_chain = prompt | llm | StrOutputParser()
+        expanded_query = expanded_query_chain.invoke({"query": query})
         expanded_query = query + " " + expanded_query
         return {"retriever": hybrid_retriever, "query": expanded_query}
 
@@ -40,8 +36,6 @@ def build_retrieval_chain(config):
 
         top_k_val = config["retriever"]["top_k"]
         docs = hybrid_retriever.invoke(query)[:top_k_val]
-        gc.collect()
-        torch.cuda.empty_cache()
         return {"docs": docs, "query": query}
 
     def rerank_docs(inputs):
@@ -58,8 +52,6 @@ def build_retrieval_chain(config):
                 model=reranker_model, top_n=reranker_cfg["top_n"]
             )
         reranked_docs = compressor.compress_documents(docs, query)
-        gc.collect()
-        torch.cuda.empty_cache()
         return {"docs": reranked_docs, "query": query}
 
     chain = []
@@ -75,16 +67,31 @@ def build_retrieval_chain(config):
     return retrieval_chain
 
 
-if __name__ == "__main__":
-    config = load_config("config/base.yaml")
-    query = "How does the repository handle IPv6 addresses in ADB commands?"
+def main():
+    parser = argparse.ArgumentParser(description="Run retrieval on a codebase.")
+    parser.add_argument("--query", required=True, help="Query to search the index with")
+    parser.add_argument(
+        "--config_path",
+        required=False,
+        default="config/base.yaml",
+        help="Path to config YAML file",
+    )
+    args = parser.parse_args()
+
+    config = load_config(args.config_path)
     retrieval_chain = build_retrieval_chain(config)
+
     graph = retrieval_chain.get_graph()
     print(graph.print_ascii())
-    results = retrieval_chain.invoke({"query": query, "retriever": None})["docs"]
 
-    print(f"\nSearch results for query: '{query}'")
-    for doc in results[:3]:
-        print(f"Content: {doc.page_content[:200]}...")
+    results = retrieval_chain.invoke({"query": args.query, "retriever": None})["docs"]
+
+    print(f"\nSearch results for query: '{args.query}'")
+    for doc in results[:10]:
         print(f"Source: {doc.metadata.get('source', 'Unknown')}")
+        print(f"Content: {doc.page_content[:200]}...")
         print("=" * 80)
+
+
+if __name__ == "__main__":
+    main()
