@@ -14,7 +14,7 @@ conda activate ragrepo
 python -m pip install -r requirements.txt
 ```
 
-If you're using APIs (OpenAI, Cohere, Google, etc.), add your keys in a `.env` file at the project root. (See `.env.example`)
+If you're using APIs (OpenAI, Cohere, Google, etc.), add your keys in a `.env` file at the project root. (See .[env.example](https://github.com/mallahova/RAGRepo/blob/main/.env.example))
 
 ## 🧠 Overview
 
