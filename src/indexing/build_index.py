@@ -12,7 +12,7 @@ import logging
 import pickle
 import re
 
-from src.core.component_registry import build_embedding_model, SPLITTERS, INDEX_DIR
+from src.core.component_registry import build_embedding_model, INDEX_DIR
 from src.core.loaders.config_loader import load_config
 from src.indexing.code_chunker import detect_language_from_path
 from src.core.loaders.rag_loaders import get_index_subdir
@@ -81,12 +81,6 @@ def build_indexing_chain(config):
     """
     file_filter = make_file_filter(config.get("filter", {}))
     splitter_cfg = config["chunking"]
-    # splitter_cls = SPLITTERS[splitter_cfg["splitter"]["class"]]
-    # splitter = splitter_cls(
-    #     chunk_size=splitter_cfg["chunk_size"],
-    #     chunk_overlap=splitter_cfg["chunk_overlap"],
-    #     length_function=len,
-    # )
     embedding_cfg = config["embedding"]
     embedding_model = build_embedding_model(embedding_cfg)
 
@@ -122,19 +116,6 @@ def build_indexing_chain(config):
 
     def embed_chunks_and_create_index(chunks):
         faiss_index = FAISS.from_documents(chunks, embedding_model)
-        # faiss_index = FAISS.from_documents([chunks[0]], embedding_model)
-
-        # # Step 2: Loop through the rest and add them to the index
-        # for doc in chunks[1:]:
-        #     while True:
-        #         try:
-        #             faiss_index.add_documents([doc])
-        #             break
-        #         except Exception as e:
-        #             print(f"Error embedding document: {e}")
-        #             print("Waiting 60 seconds before retrying...")
-        #             time.sleep(61)
-
         bm25_retriever = BM25Retriever.from_documents(chunks)
         return (faiss_index, bm25_retriever)
 

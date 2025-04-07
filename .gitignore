@@ -3,4 +3,7 @@ escrcpy
 .vscode
 .temp_repo
 __pycache__
-src/data/index/
+wandb
+src/eval/run_experiments.py
+src/eval/notebooks/rag_setups_evaluation_report.ipynb
+src/eval/run_experiments.py

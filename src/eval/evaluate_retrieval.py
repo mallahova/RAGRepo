@@ -60,6 +60,7 @@ def evaluate_recall_and_latency(eval_data, retrieval_chain, config, low_vram=Fal
         total_latency += latency
 
         retrieved_files = get_top_k_unique_filenames(results, k=10)
+        # print(f"{len(retrieved_files)} retrieved files")
         retrieved_files = set(retrieved_files)
         matched = gold_files & retrieved_files
         recall = len(matched) / len(gold_files)

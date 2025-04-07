@@ -6,6 +6,9 @@ from langchain_core.output_parsers import StrOutputParser
 from src.core.loaders.config_loader import load_config
 from src.core.loaders.rag_loaders import load_index, load_generator, load_reranker
 
+import gc
+import torch
+
 
 def build_retrieval_chain(config):
     """
@@ -21,18 +24,11 @@ def build_retrieval_chain(config):
         #     "Expand this code-related search query using synonyms and technical terms. Return only the expanded query.\nQuery: {query}\nExpanded:"
         # )
         prompt = PromptTemplate.from_template(
-            """You are a code search query expansion expert. Your task is to expand and improve the given query
-        to make it more detailed and comprehensive. Include relevant synonyms and related terms, class and function names to improve retrieval.
-        Return only the expanded query without any explanations or additional text.
-
-        Original query: {query}
-
-        Expanded query:"""
+            "You are a helpful coding expert. Provide an example short answer to the given question, that might be found in a code repository. Question: {query}"
         )
         expanded_query = prompt | llm | StrOutputParser()
         expanded_query = expanded_query.invoke({"query": query})
-        print(f"query: { query }")
-        print(f"Expanded query: {expanded_query}")
+        expanded_query = query + " " + expanded_query
         return {"retriever": hybrid_retriever, "query": expanded_query}
 
     def retrieve_hybrid_top_k(inputs):
@@ -44,7 +40,8 @@ def build_retrieval_chain(config):
 
         top_k_val = config["retriever"]["top_k"]
         docs = hybrid_retriever.invoke(query)[:top_k_val]
-
+        gc.collect()
+        torch.cuda.empty_cache()
         return {"docs": docs, "query": query}
 
     def rerank_docs(inputs):
@@ -61,7 +58,8 @@ def build_retrieval_chain(config):
                 model=reranker_model, top_n=reranker_cfg["top_n"]
             )
         reranked_docs = compressor.compress_documents(docs, query)
-
+        gc.collect()
+        torch.cuda.empty_cache()
         return {"docs": reranked_docs, "query": query}
 
     chain = []

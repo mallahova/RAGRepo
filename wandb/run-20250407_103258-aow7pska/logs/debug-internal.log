@@ -1,7 +1,0 @@
-{"time":"2025-04-07T10:32:58.554230104+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/mallahova/code/basics/projects/interview/RAGRepo/wandb/run-20250407_103258-aow7pska/logs/debug-core.log"}
-{"time":"2025-04-07T10:33:00.306446221+02:00","level":"INFO","msg":"created new stream","id":"aow7pska"}
-{"time":"2025-04-07T10:33:00.306520641+02:00","level":"INFO","msg":"stream: started","id":"aow7pska"}
-{"time":"2025-04-07T10:33:00.306560871+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"aow7pska"}
-{"time":"2025-04-07T10:33:00.306627143+02:00","level":"INFO","msg":"handler: started","stream_id":"aow7pska"}
-{"time":"2025-04-07T10:33:00.306728129+02:00","level":"INFO","msg":"sender: started","stream_id":"aow7pska"}
-{"time":"2025-04-07T10:33:00.615499478+02:00","level":"INFO","msg":"Starting system monitor"}

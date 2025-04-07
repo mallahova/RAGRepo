@@ -1,5 +1,0 @@
-Some weights of the model checkpoint at Alibaba-NLP/gte-multilingual-base were not used when initializing NewModel: ['classifier.bias', 'classifier.weight']
-- This IS expected if you are initializing NewModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
-- This IS NOT expected if you are initializing NewModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-Evaluating Recall@10: 100%|████████████████████████████████████████████████████████████████████████| 34/34 [00:00<00:00, 36.07it/s]
-Recall@10: 0.611 | Avg Latency: 0.028s

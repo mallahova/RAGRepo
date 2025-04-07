@@ -85,7 +85,9 @@ def load_reranker(config):
 
     if reranker_class == "CohereRerank":
         reranker_class = RERANKERS[reranker_cfg["class"]]
-        reranker_model = reranker_class(model=reranker_cfg["name"])
+        reranker_model = reranker_class(
+            model=reranker_cfg["name"], top_n=reranker_cfg["top_n"]
+        )
 
     else:
         reranker_class = RERANKERS[reranker_cfg["class"]]

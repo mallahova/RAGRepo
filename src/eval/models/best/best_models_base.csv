@@ -1,0 +1,5 @@
+run_name,recall@10,avg_latency
+cs1000_co0_text-embedding-3-large_tk50_dw1_qefalse,0.7247549019607844,0.5761214354458977
+cs1000_co0_text-embedding-3-small_tk50_dw1_qefalse,0.6897058823529412,0.6222383625367108
+cs800_co100_gte-multilingual-base_tk50_dw1_qefalse,0.6622549019607844,0.017294834641849294
+cs1000_co100_snowflake-arctic-embed-l-v2.0_tk50_dw1_qefalse,0.6529411764705882,0.041230145622702205

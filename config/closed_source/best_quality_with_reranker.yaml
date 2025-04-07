@@ -1,0 +1,33 @@
+filter:
+  exclude_extensions: [".png", ".jpg", ".jpeg", ".gif", ".ico", ".svg", ".bin", ".exe", ".dll",
+                       ".so", ".dylib", ".apk", ".ipk", ".zip", ".tar", ".gz", ".o", ".obj",
+                       ".class", ".pyc"]
+  exclude_dirs: ["build", "dist", "node_modules", "vendor", "bin", "__pycache__", "docs/zhHans"]
+
+chunking:
+  chunk_overlap: 0
+  chunk_size: 1000
+  splitter:
+    class: RecursiveCharacterTextSplitter
+    
+embedding:
+  class: OpenAIEmbeddings
+  name: text-embedding-3-small
+
+retriever:
+  dense_weight: 1
+  query_expansion: false
+  top_k: 50
+  use_reranker: true
+
+reranker:
+  class: CohereRerank
+  name: rerank-v3.5
+  top_n: 20
+
+
+generator:
+  class: ChatOpenAI
+  name: gpt-4o-mini
+  temperature: 0.3
+

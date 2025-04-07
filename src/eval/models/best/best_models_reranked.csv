@@ -1,0 +1,5 @@
+run_name,recall@10,avg_latency
+cs1000_co0_text-embedding-3-small_rr_rerank-v3.5_tk50_dw1_qefalse,0.7387254901960785,2.2580218946232513
+cs1000_co100_text-embedding-3-large_tk50_dw1_qefalse,0.7247549019607844,0.6570621027665979
+cs800_co100_gte-multilingual-base_rr_bge-reranker-v2-m3_tk50_dw1_qefalse,0.6651960784313725,13.101783492985893
+cs800_co100_gte-multilingual-base_tk50_dw1_qefalse,0.6622549019607844,0.017294834641849294

@@ -3,24 +3,12 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_openai import OpenAIEmbeddings
 from src.core.custom_wrappers.gemini_wrapper import GeminiEmbeddings
 
-# Text splitters
-from langchain.text_splitter import (
-    RecursiveCharacterTextSplitter,
-    CharacterTextSplitter,
-    TokenTextSplitter,
-)
-
 # Rerankers
 from langchain_community.cross_encoders import HuggingFaceCrossEncoder
 from langchain_cohere import CohereRerank
 
 # Generative LLMs
 from langchain_openai import ChatOpenAI
-
-
-# from langchain_community.llms import OpenAI, HuggingFaceHub
-# from langchain_community.chat_models import ChatOpenAI
-# from langchain_community.llms import LlamaCpp
 
 
 EMBEDDINGS = {
@@ -57,12 +45,6 @@ def build_embedding_model(model_config: dict):
 
     raise ValueError(f"Unknown or unsupported embedding class: {class_name}")
 
-
-SPLITTERS = {
-    "RecursiveCharacterTextSplitter": RecursiveCharacterTextSplitter,
-    "CharacterTextSplitter": CharacterTextSplitter,
-    "TokenTextSplitter": TokenTextSplitter,
-}
 
 RERANKERS = {
     "CohereRerank": CohereRerank,

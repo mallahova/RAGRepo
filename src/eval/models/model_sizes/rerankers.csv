@@ -1,0 +1,5 @@
+Class,Name,Size
+HuggingFaceCrossEncoder,BAAI/bge-reranker-large,550M
+HuggingFaceCrossEncoder,BAAI/bge-reranker-v2-m3,568M
+HuggingFaceCrossEncoder,mixedbread-ai/mxbai-rerank-base-v1,184M
+CohereRerank,rerank-v3.5,?
