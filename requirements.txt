@@ -1,6 +1,8 @@
 langchain-openai==0.3.11
 langchain-community==0.3.21
 langchain-huggingface==0.1.2
+langchain_cohere==0.4.3
+langchain_core==0.3.51
 faiss-gpu==1.7.2
 beautifulsoup4
 filelock
@@ -13,8 +15,4 @@ grandalf # optional for langchain graphs
 google-generativeai==0.8.4
 rank_bm25==0.2.2
 cohere==5.14.2
-langchain_cohere==0.4.3
-langchain_core==0.3.51
-wandb
-sentence-transformer
 pytz
