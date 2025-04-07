@@ -1,0 +1,14 @@
+Evaluating Recall@10:   0%|                                                                                 | 0/34 [00:00<?, ?it/s]/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain/tools/__init__.py:73: LangChainDeprecationWarning: Importing tools from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+`from langchain_community.tools import torch`.
+
+To install langchain-community run `pip install -U langchain-community`.
+  warnings.warn(
+/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain/tools/__init__.py:73: LangChainDeprecationWarning: Importing tools from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+`from langchain_community.tools import torch`.
+
+To install langchain-community run `pip install -U langchain-community`.
+  warnings.warn(
+Evaluating Recall@10: 100%|████████████████████████████████████████████████████████████████████████| 34/34 [02:23<00:00,  4.23s/it]
+Recall@10: 0.503 | Avg Latency: 3.915s

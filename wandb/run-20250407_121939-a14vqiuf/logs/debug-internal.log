@@ -1,0 +1,16 @@
+{"time":"2025-04-07T12:19:39.689880348+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/mallahova/code/basics/projects/interview/RAGRepo/wandb/run-20250407_121939-a14vqiuf/logs/debug-core.log"}
+{"time":"2025-04-07T12:19:41.380154715+02:00","level":"INFO","msg":"created new stream","id":"a14vqiuf"}
+{"time":"2025-04-07T12:19:41.380185068+02:00","level":"INFO","msg":"stream: started","id":"a14vqiuf"}
+{"time":"2025-04-07T12:19:41.380191708+02:00","level":"INFO","msg":"sender: started","stream_id":"a14vqiuf"}
+{"time":"2025-04-07T12:19:41.380214552+02:00","level":"INFO","msg":"handler: started","stream_id":"a14vqiuf"}
+{"time":"2025-04-07T12:19:41.380326304+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"a14vqiuf"}
+{"time":"2025-04-07T12:19:41.706776745+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-07T12:23:08.841511334+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-07T12:23:08.841544208+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-07T12:23:09.809704595+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-07T12:23:09.845731438+02:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 0-0, summary, console lines 0-1","runtime_seconds":0.035878612}],"total_operations":1}}
+{"time":"2025-04-07T12:23:10.18248108+02:00","level":"INFO","msg":"stream: closing","id":"a14vqiuf"}
+{"time":"2025-04-07T12:23:10.182500607+02:00","level":"INFO","msg":"handler: closed","stream_id":"a14vqiuf"}
+{"time":"2025-04-07T12:23:10.182511494+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"a14vqiuf"}
+{"time":"2025-04-07T12:23:10.182521003+02:00","level":"INFO","msg":"sender: closed","stream_id":"a14vqiuf"}
+{"time":"2025-04-07T12:23:10.182592511+02:00","level":"INFO","msg":"stream: closed","id":"a14vqiuf"}

@@ -1,4 +1,6 @@
 from pathlib import Path
+from langchain_text_splitters import Language
+
 
 EXTENSION_TO_LANGUAGE = {
     ".py": Language.PYTHON,
@@ -24,6 +26,7 @@ EXTENSION_TO_LANGUAGE = {
     ".lua": Language.LUA,
     ".pl": Language.PERL,
     ".hs": Language.HASKELL,
+}
 
 
 def detect_language_from_path(path: str) -> Language:

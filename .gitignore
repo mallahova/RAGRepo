@@ -3,3 +3,4 @@ escrcpy
 .vscode
 .temp_repo
 __pycache__
+src/data/index/

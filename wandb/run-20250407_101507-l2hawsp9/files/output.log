@@ -1,0 +1,17 @@
+Error during evaluation: cs500_co0_snowflake-arctic-embed-l-v2.0_tk50_dw1_qefalse
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 254, in <module>
+    main()
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 233, in main
+    phase1_results = phase_1_coarse_search(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 91, in phase_1_coarse_search
+    wandb.log(eval_results)
+UnboundLocalError: local variable 'eval_results' referenced before assignment
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 254, in <module>
+    main()
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 233, in main
+    phase1_results = phase_1_coarse_search(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 91, in phase_1_coarse_search
+    wandb.log(eval_results)
+UnboundLocalError: local variable 'eval_results' referenced before assignment

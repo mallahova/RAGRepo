@@ -1,0 +1,83 @@
+Evaluating Recall@10:  24%|█████████████████▏                                                       | 8/34 [00:48<02:36,  6.00s/it]
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 260, in <module>
+    main()
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 239, in main
+    phase1_results = parameter_search(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 133, in parameter_search
+    final_recall, average_latency = evaluate_recall_and_latency(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/evaluate_retrieval.py", line 50, in evaluate_recall_and_latency
+    results = retrieval_chain.invoke(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4780, in invoke
+    return self._call_with_config(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 1933, in _call_with_config
+    context.run(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4633, in _invoke
+    output = call_func_with_variable_args(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 43, in retrieve_hybrid_top_k
+    hybrid_retriever = load_index(config)
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/core/loaders/rag_loaders.py", line 34, in load_index
+    embedding_model = build_embedding_model(config["embedding"])
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/core/component_registry.py", line 53, in build_embedding_model
+    return embedding_cls(model_name=name, model_kwargs={"trust_remote_code": True})
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_huggingface/embeddings/huggingface.py", line 59, in __init__
+    self._client = sentence_transformers.SentenceTransformer(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 348, in __init__
+    self.to(device)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1340, in to
+    return self._apply(convert)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  [Previous line repeated 1 more time]
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 962, in _apply
+    if param_grad is not None:
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 260, in <module>
+    main()
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 239, in main
+    phase1_results = parameter_search(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 133, in parameter_search
+    final_recall, average_latency = evaluate_recall_and_latency(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/evaluate_retrieval.py", line 50, in evaluate_recall_and_latency
+    results = retrieval_chain.invoke(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4780, in invoke
+    return self._call_with_config(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 1933, in _call_with_config
+    context.run(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4633, in _invoke
+    output = call_func_with_variable_args(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 43, in retrieve_hybrid_top_k
+    hybrid_retriever = load_index(config)
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/core/loaders/rag_loaders.py", line 34, in load_index
+    embedding_model = build_embedding_model(config["embedding"])
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/core/component_registry.py", line 53, in build_embedding_model
+    return embedding_cls(model_name=name, model_kwargs={"trust_remote_code": True})
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_huggingface/embeddings/huggingface.py", line 59, in __init__
+    self._client = sentence_transformers.SentenceTransformer(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 348, in __init__
+    self.to(device)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1340, in to
+    return self._apply(convert)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  [Previous line repeated 1 more time]
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 962, in _apply
+    if param_grad is not None:
+KeyboardInterrupt

@@ -1,0 +1,6 @@
+Error during evaluation: CUDA out of memory. Tried to allocate 16.00 MiB. GPU 0 has a total capacity of 3.71 GiB of which 2.56 MiB is free. Including non-PyTorch memory, this process has 3.69 GiB memory in use. Of the allocated memory 3.56 GiB is allocated by PyTorch, and 38.72 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Some weights of the model checkpoint at Alibaba-NLP/gte-multilingual-base were not used when initializing NewModel: ['classifier.bias', 'classifier.weight']
+- This IS expected if you are initializing NewModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing NewModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Evaluating Recall@10: 100%|████████████████████████████████████████████████████████████████████████| 34/34 [00:00<00:00, 48.86it/s]
+Recall@10: 0.641 | Avg Latency: 0.020s

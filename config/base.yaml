@@ -9,8 +9,8 @@ filter:
   exclude_dirs: ["build", "dist", "node_modules", "vendor", "bin", "__pycache__", "docs/zhHans"]
   
 chunking:
-  chunk_size: 500
-  chunk_overlap: 200
+  chunk_size: 800
+  chunk_overlap: 50
   splitter:
     class: RecursiveCharacterTextSplitter
 
@@ -24,18 +24,30 @@ embedding:
   # name: Alibaba-NLP/gte-modernbert-base
 
   class: OpenAIEmbeddings
-  name: text-embedding-3-large
+  name: text-embedding-3-small
+
+  # class: GeminiEmbeddings
+  # name: models/gemini-embedding-exp-03-07
 
 retriever:
   top_k: 50  # number of documents to retrieve from the vector database
   dense_weight: 1 # weight for dense retriever
+  query_expansion: True
+  use_reranker: False
 
-# reranker:
-#   class: HuggingFaceCrossEncoder
-#   name:  BAAI/bge-reranker-large
-#   top_n: 10
+  
 
-# generator:
-#   class: HuggingFacePipeline
-#   name: google/flan-t5-base
-#   temperature: 0.7
+reranker:
+  # class: HuggingFaceCrossEncoder
+  # name:  BAAI/bge-reranker-large
+  # name: BAAI/bge-reranker-v2-m3
+  # name: mixedbread-ai/mxbai-rerank-base-v1
+
+  class: CohereRerank
+  name: rerank-v3.5
+  top_n: 15
+
+generator:
+  class: ChatOpenAI
+  name: gpt-4o-mini
+  temperature: 0.3

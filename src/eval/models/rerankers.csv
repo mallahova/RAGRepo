@@ -1,0 +1,4 @@
+class, name, size
+HuggingFaceCrossEncoder, BAAI/bge-reranker-large, 650M 
+
+   

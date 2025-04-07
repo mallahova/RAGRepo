@@ -1,0 +1,4 @@
+Evaluating Recall@10:   0%|                                                                                 | 0/34 [00:00<?, ?it/s]/home/mallahova/.local/lib/python3.10/site-packages/torch/_inductor/compile_fx.py:167: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+Evaluating Recall@10: 100%|████████████████████████████████████████████████████████████████████████| 34/34 [00:04<00:00,  7.92it/s]
+Recall@10: 0.614 | Avg Latency: 0.126s

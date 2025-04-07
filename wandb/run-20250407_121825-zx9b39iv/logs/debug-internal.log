@@ -1,0 +1,15 @@
+{"time":"2025-04-07T12:18:25.244218498+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/mallahova/code/basics/projects/interview/RAGRepo/wandb/run-20250407_121825-zx9b39iv/logs/debug-core.log"}
+{"time":"2025-04-07T12:18:25.697556665+02:00","level":"INFO","msg":"created new stream","id":"zx9b39iv"}
+{"time":"2025-04-07T12:18:25.697625156+02:00","level":"INFO","msg":"stream: started","id":"zx9b39iv"}
+{"time":"2025-04-07T12:18:25.697702468+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"zx9b39iv"}
+{"time":"2025-04-07T12:18:25.697713855+02:00","level":"INFO","msg":"sender: started","stream_id":"zx9b39iv"}
+{"time":"2025-04-07T12:18:25.697735329+02:00","level":"INFO","msg":"handler: started","stream_id":"zx9b39iv"}
+{"time":"2025-04-07T12:18:25.942122568+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-07T12:19:14.651041889+02:00","level":"INFO","msg":"stream: closing","id":"zx9b39iv"}
+{"time":"2025-04-07T12:19:14.651067885+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-07T12:19:14.651131436+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-07T12:19:15.608905097+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-07T12:19:16.198717457+02:00","level":"INFO","msg":"handler: closed","stream_id":"zx9b39iv"}
+{"time":"2025-04-07T12:19:16.198747778+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"zx9b39iv"}
+{"time":"2025-04-07T12:19:16.19877643+02:00","level":"INFO","msg":"sender: closed","stream_id":"zx9b39iv"}
+{"time":"2025-04-07T12:19:16.198792334+02:00","level":"INFO","msg":"stream: closed","id":"zx9b39iv"}

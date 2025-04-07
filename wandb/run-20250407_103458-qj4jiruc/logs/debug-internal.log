@@ -1,0 +1,7 @@
+{"time":"2025-04-07T10:34:58.824616745+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/mallahova/code/basics/projects/interview/RAGRepo/wandb/run-20250407_103458-qj4jiruc/logs/debug-core.log"}
+{"time":"2025-04-07T10:35:00.738939941+02:00","level":"INFO","msg":"created new stream","id":"qj4jiruc"}
+{"time":"2025-04-07T10:35:00.738999144+02:00","level":"INFO","msg":"stream: started","id":"qj4jiruc"}
+{"time":"2025-04-07T10:35:00.739070148+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"qj4jiruc"}
+{"time":"2025-04-07T10:35:00.73907588+02:00","level":"INFO","msg":"sender: started","stream_id":"qj4jiruc"}
+{"time":"2025-04-07T10:35:00.739096065+02:00","level":"INFO","msg":"handler: started","stream_id":"qj4jiruc"}
+{"time":"2025-04-07T10:35:01.067290174+02:00","level":"INFO","msg":"Starting system monitor"}

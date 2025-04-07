@@ -1,0 +1,15 @@
+{"time":"2025-04-07T10:20:13.482678325+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/mallahova/code/basics/projects/interview/RAGRepo/wandb/run-20250407_102013-elst89xi/logs/debug-core.log"}
+{"time":"2025-04-07T10:20:13.864815572+02:00","level":"INFO","msg":"created new stream","id":"elst89xi"}
+{"time":"2025-04-07T10:20:13.864874763+02:00","level":"INFO","msg":"stream: started","id":"elst89xi"}
+{"time":"2025-04-07T10:20:13.86492118+02:00","level":"INFO","msg":"sender: started","stream_id":"elst89xi"}
+{"time":"2025-04-07T10:20:13.864929304+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"elst89xi"}
+{"time":"2025-04-07T10:20:13.864958964+02:00","level":"INFO","msg":"handler: started","stream_id":"elst89xi"}
+{"time":"2025-04-07T10:20:14.196178852+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-07T10:20:29.350894812+02:00","level":"INFO","msg":"stream: closing","id":"elst89xi"}
+{"time":"2025-04-07T10:20:29.350925055+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-07T10:20:29.351038073+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-07T10:20:30.293868494+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-07T10:20:30.59473902+02:00","level":"INFO","msg":"handler: closed","stream_id":"elst89xi"}
+{"time":"2025-04-07T10:20:30.594769984+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"elst89xi"}
+{"time":"2025-04-07T10:20:30.594786818+02:00","level":"INFO","msg":"sender: closed","stream_id":"elst89xi"}
+{"time":"2025-04-07T10:20:30.59484094+02:00","level":"INFO","msg":"stream: closed","id":"elst89xi"}

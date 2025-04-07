@@ -1,0 +1,42 @@
+{
+  "os": "Linux-6.8.0-52-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.10.16",
+  "startedAt": "2025-04-07T10:33:08.396969Z",
+  "program": "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py",
+  "codePath": "src/eval/run_experiments.py",
+  "git": {
+    "remote": "https://github.com/mallahova/RAGRepo.git",
+    "commit": "d449abdb363e0d9dde870964b032604a1a870b7e"
+  },
+  "email": "alismalahova31@gmail.com",
+  "root": "/home/mallahova/code/basics/projects/interview/RAGRepo",
+  "host": "mallahova",
+  "executable": "/home/mallahova/miniconda3/envs/ragrepo/bin/python",
+  "codePathLocal": "src/eval/run_experiments.py",
+  "cpu_count": 6,
+  "cpu_count_logical": 12,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "209902886912",
+      "used": "185527148544"
+    }
+  },
+  "memory": {
+    "total": "16478646272"
+  },
+  "cpu": {
+    "count": 6,
+    "countLogical": 12
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "memoryTotal": "4294967296",
+      "cudaCores": 2048,
+      "architecture": "Ampere"
+    }
+  ],
+  "cudaVersion": "12.6"
+}

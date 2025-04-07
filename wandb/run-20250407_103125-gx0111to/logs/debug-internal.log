@@ -1,0 +1,7 @@
+{"time":"2025-04-07T10:31:25.656987182+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/mallahova/code/basics/projects/interview/RAGRepo/wandb/run-20250407_103125-gx0111to/logs/debug-core.log"}
+{"time":"2025-04-07T10:31:27.385131567+02:00","level":"INFO","msg":"created new stream","id":"gx0111to"}
+{"time":"2025-04-07T10:31:27.385167969+02:00","level":"INFO","msg":"stream: started","id":"gx0111to"}
+{"time":"2025-04-07T10:31:27.385180516+02:00","level":"INFO","msg":"sender: started","stream_id":"gx0111to"}
+{"time":"2025-04-07T10:31:27.385195743+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"gx0111to"}
+{"time":"2025-04-07T10:31:27.385193496+02:00","level":"INFO","msg":"handler: started","stream_id":"gx0111to"}
+{"time":"2025-04-07T10:31:27.67793259+02:00","level":"INFO","msg":"Starting system monitor"}

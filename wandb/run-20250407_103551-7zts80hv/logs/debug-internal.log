@@ -1,0 +1,7 @@
+{"time":"2025-04-07T10:35:51.936681524+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/mallahova/code/basics/projects/interview/RAGRepo/wandb/run-20250407_103551-7zts80hv/logs/debug-core.log"}
+{"time":"2025-04-07T10:35:52.400752023+02:00","level":"INFO","msg":"created new stream","id":"7zts80hv"}
+{"time":"2025-04-07T10:35:52.400842137+02:00","level":"INFO","msg":"stream: started","id":"7zts80hv"}
+{"time":"2025-04-07T10:35:52.400872982+02:00","level":"INFO","msg":"handler: started","stream_id":"7zts80hv"}
+{"time":"2025-04-07T10:35:52.400940957+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"7zts80hv"}
+{"time":"2025-04-07T10:35:52.400958897+02:00","level":"INFO","msg":"sender: started","stream_id":"7zts80hv"}
+{"time":"2025-04-07T10:35:52.655143993+02:00","level":"INFO","msg":"Starting system monitor"}

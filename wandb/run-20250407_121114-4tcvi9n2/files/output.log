@@ -1,0 +1,2 @@
+Evaluating Recall@10:   0%|                                                                                 | 0/34 [00:08<?, ?it/s]
+Error during evaluation: unsupported operand type(s) for &: 'set' and 'list'

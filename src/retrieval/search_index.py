@@ -1,43 +1,10 @@
-from langchain_community.vectorstores import FAISS
-from langchain_community.retrievers.bm25 import BM25Retriever
-from langchain.retrievers.ensemble import EnsembleRetriever
-from langchain_core.runnables import RunnableLambda
-from src.core.config_loader import load_config
-from src.core.component_registry import build_embedding_model, RERANKERS, INDEX_DIR
+from langchain_core.runnables import RunnableLambda, RunnableSequence
 from langchain.retrievers.document_compressors import CrossEncoderReranker
-import pickle
-import os
+from langchain.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
-
-def load_index(config: dict):
-    """
-    Loads the FAISS and BM25 retrievers and returns an EnsembleRetriever.
-    """
-    embedding_model = build_embedding_model(config["embedding"])
-
-    # Load FAISS
-    faiss_index = FAISS.load_local(
-        os.path.join(INDEX_DIR, "faiss"),
-        embeddings=embedding_model,
-        allow_dangerous_deserialization=True,
-    )
-    faiss_retriever = faiss_index.as_retriever(
-        search_kwargs={"k": config["retriever"]["top_k"]}
-    )
-
-    # Load BM25
-    bm25_path = os.path.join(INDEX_DIR, "bm25.pkl")
-    with open(bm25_path, "rb") as f:
-        bm25_retriever = pickle.load(f)
-    bm25_retriever.k = config["retriever"]["top_k"]
-    # Build EnsembleRetriever
-    dense_weight = config["retriever"]["dense_weight"]
-    hybrid_retriever = EnsembleRetriever(
-        retrievers=[faiss_retriever, bm25_retriever],
-        weights=[dense_weight, 1 - dense_weight],  # [dense, sparse]
-    )
-
-    return hybrid_retriever
+from src.core.loaders.config_loader import load_config
+from src.core.loaders.rag_loaders import load_index, load_generator, load_reranker
 
 
 def build_retrieval_chain(config):
@@ -45,6 +12,28 @@ def build_retrieval_chain(config):
     Returns a LangChain Runnable that retrieves documents using a hybrid retriever.
     Optionally applies reranking if specified in the config.
     """
+
+    def expand_query(inputs):
+        query = inputs["query"]
+        hybrid_retriever = inputs.get("retriever", None)
+        llm = load_generator(config)
+        # prompt = PromptTemplate.from_template(
+        #     "Expand this code-related search query using synonyms and technical terms. Return only the expanded query.\nQuery: {query}\nExpanded:"
+        # )
+        prompt = PromptTemplate.from_template(
+            """You are a code search query expansion expert. Your task is to expand and improve the given query
+        to make it more detailed and comprehensive. Include relevant synonyms and related terms, class and function names to improve retrieval.
+        Return only the expanded query without any explanations or additional text.
+
+        Original query: {query}
+
+        Expanded query:"""
+        )
+        expanded_query = prompt | llm | StrOutputParser()
+        expanded_query = expanded_query.invoke({"query": query})
+        print(f"query: { query }")
+        print(f"Expanded query: {expanded_query}")
+        return {"retriever": hybrid_retriever, "query": expanded_query}
 
     def retrieve_hybrid_top_k(inputs):
         query = inputs["query"]
@@ -61,21 +50,31 @@ def build_retrieval_chain(config):
     def rerank_docs(inputs):
         docs = inputs["docs"]
         query = inputs["query"]
+        reranker_model = load_reranker(config)
         reranker_cfg = config["reranker"]
-        reranker_class = RERANKERS[reranker_cfg["class"]]
-        reranker_model = reranker_class(model_name=reranker_cfg["name"])
-        compressor = CrossEncoderReranker(
-            model=reranker_model, top_n=reranker_cfg["top_n"]
-        )
+        reranker_class = reranker_cfg["class"]
+
+        if reranker_class == "CohereRerank":
+            compressor = reranker_model
+        else:
+            compressor = CrossEncoderReranker(
+                model=reranker_model, top_n=reranker_cfg["top_n"]
+            )
         reranked_docs = compressor.compress_documents(docs, query)
 
         return {"docs": reranked_docs, "query": query}
 
-    if "reranker" in config:
-        return RunnableLambda(retrieve_hybrid_top_k) | RunnableLambda(rerank_docs)
+    chain = []
+    if config["retriever"]["query_expansion"]:
+        chain.append(RunnableLambda(expand_query))
+    chain.append(RunnableLambda(retrieve_hybrid_top_k))
+    if config["retriever"]["use_reranker"]:
+        chain.append(RunnableLambda(rerank_docs))
 
-    else:
-        return RunnableLambda(retrieve_hybrid_top_k)
+    if len(chain) == 1:
+        return chain[0]
+    retrieval_chain = RunnableSequence(*chain)
+    return retrieval_chain
 
 
 if __name__ == "__main__":
@@ -87,7 +86,7 @@ if __name__ == "__main__":
     results = retrieval_chain.invoke({"query": query, "retriever": None})["docs"]
 
     print(f"\nSearch results for query: '{query}'")
-    for doc in results:
+    for doc in results[:3]:
         print(f"Content: {doc.page_content[:200]}...")
         print(f"Source: {doc.metadata.get('source', 'Unknown')}")
         print("=" * 80)

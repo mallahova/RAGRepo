@@ -1,0 +1,169 @@
+Evaluating Recall@10:   0%|                                                                                 | 0/34 [01:09<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 267, in <module>
+    main()
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 246, in main
+    phase1_results = phase_1_coarse_search(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 91, in phase_1_coarse_search
+    final_recall, average_latency = evaluate_recall_and_latency(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/evaluate_retrieval.py", line 40, in evaluate_recall_and_latency
+    results = retrieval_chain.invoke(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4780, in invoke
+    return self._call_with_config(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 1933, in _call_with_config
+    context.run(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4633, in _invoke
+    output = call_func_with_variable_args(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 117, in retrieve_hybrid_top_k
+    hybrid_retriever = load_index(config)
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 23, in load_index
+    embedding_model = build_embedding_model(config["embedding"])
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/core/component_registry.py", line 53, in build_embedding_model
+    return embedding_cls(model_name=name, model_kwargs={"trust_remote_code": True})
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_huggingface/embeddings/huggingface.py", line 59, in __init__
+    self._client = sentence_transformers.SentenceTransformer(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 309, in __init__
+    modules, self.module_kwargs = self._load_sbert_model(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 1674, in _load_sbert_model
+    module = module_class(model_name_or_path, cache_dir=cache_folder, backend=self.backend, **kwargs)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/models/Transformer.py", line 80, in __init__
+    config, is_peft_model = self._load_config(model_name_or_path, cache_dir, backend, config_args)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/models/Transformer.py", line 121, in _load_config
+    find_adapter_config_file(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/transformers/utils/peft_utils.py", line 88, in find_adapter_config_file
+    adapter_cached_filename = cached_file(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/transformers/utils/hub.py", line 266, in cached_file
+    file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/transformers/utils/hub.py", line 424, in cached_files
+    hf_hub_download(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 860, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 923, in _hf_hub_download_to_cache_dir
+    (url_to_download, etag, commit_hash, expected_size, head_call_error) = _get_metadata_or_catch_error(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1374, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1294, in get_hf_file_metadata
+    r = _request_wrapper(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 278, in _request_wrapper
+    response = _request_wrapper(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 301, in _request_wrapper
+    response = get_session().request(method=method, url=url, **params)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 93, in send
+    return super().send(request, *args, **kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/home/mallahova/.local/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 267, in <module>
+    main()
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 246, in main
+    phase1_results = phase_1_coarse_search(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 91, in phase_1_coarse_search
+    final_recall, average_latency = evaluate_recall_and_latency(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/evaluate_retrieval.py", line 40, in evaluate_recall_and_latency
+    results = retrieval_chain.invoke(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4780, in invoke
+    return self._call_with_config(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 1933, in _call_with_config
+    context.run(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4633, in _invoke
+    output = call_func_with_variable_args(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 117, in retrieve_hybrid_top_k
+    hybrid_retriever = load_index(config)
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 23, in load_index
+    embedding_model = build_embedding_model(config["embedding"])
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/core/component_registry.py", line 53, in build_embedding_model
+    return embedding_cls(model_name=name, model_kwargs={"trust_remote_code": True})
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_huggingface/embeddings/huggingface.py", line 59, in __init__
+    self._client = sentence_transformers.SentenceTransformer(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 309, in __init__
+    modules, self.module_kwargs = self._load_sbert_model(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 1674, in _load_sbert_model
+    module = module_class(model_name_or_path, cache_dir=cache_folder, backend=self.backend, **kwargs)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/models/Transformer.py", line 80, in __init__
+    config, is_peft_model = self._load_config(model_name_or_path, cache_dir, backend, config_args)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/models/Transformer.py", line 121, in _load_config
+    find_adapter_config_file(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/transformers/utils/peft_utils.py", line 88, in find_adapter_config_file
+    adapter_cached_filename = cached_file(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/transformers/utils/hub.py", line 266, in cached_file
+    file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/transformers/utils/hub.py", line 424, in cached_files
+    hf_hub_download(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 860, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 923, in _hf_hub_download_to_cache_dir
+    (url_to_download, etag, commit_hash, expected_size, head_call_error) = _get_metadata_or_catch_error(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1374, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1294, in get_hf_file_metadata
+    r = _request_wrapper(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 278, in _request_wrapper
+    response = _request_wrapper(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 301, in _request_wrapper
+    response = get_session().request(method=method, url=url, **params)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 93, in send
+    return super().send(request, *args, **kwargs)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/mallahova/.local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "/home/mallahova/.local/lib/python3.10/site-packages/urllib3/connection.py", line 516, in getresponse
+    httplib_response = super().getresponse()
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+KeyboardInterrupt

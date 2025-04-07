@@ -1,0 +1,102 @@
+Error during evaluation: cs500_co0_snowflake-arctic-embed-l-v2.0_tk50_dw1_qefalse
+Evaluating Recall@10:   0%|                                                                                 | 0/34 [01:21<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/evaluate_retrieval.py", line 40, in evaluate_recall_and_latency
+    results = retrieval_chain.invoke(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4780, in invoke
+    return self._call_with_config(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 1933, in _call_with_config
+    context.run(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4633, in _invoke
+    output = call_func_with_variable_args(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 117, in retrieve_hybrid_top_k
+    hybrid_retriever = load_index(config)
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 23, in load_index
+    embedding_model = build_embedding_model(config["embedding"])
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/core/component_registry.py", line 53, in build_embedding_model
+    return embedding_cls(model_name=name, model_kwargs={"trust_remote_code": True})
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_huggingface/embeddings/huggingface.py", line 59, in __init__
+    self._client = sentence_transformers.SentenceTransformer(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 348, in __init__
+    self.to(device)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1340, in to
+    return self._apply(convert)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  [Previous line repeated 4 more times]
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 927, in _apply
+    param_applied = fn(param)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1326, in convert
+    return t.to(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 3.71 GiB of which 2.56 MiB is free. Including non-PyTorch memory, this process has 3.69 GiB memory in use. Of the allocated memory 3.58 GiB is allocated by PyTorch, and 22.72 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 265, in <module>
+    main()
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 244, in main
+    phase1_results = phase_1_coarse_search(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 97, in phase_1_coarse_search
+    final_recall, average_latency = evaluate_recall_and_latency(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/evaluate_retrieval.py", line 45, in evaluate_recall_and_latency
+    time.sleep(60)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/evaluate_retrieval.py", line 40, in evaluate_recall_and_latency
+    results = retrieval_chain.invoke(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4780, in invoke
+    return self._call_with_config(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 1933, in _call_with_config
+    context.run(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/base.py", line 4633, in _invoke
+    output = call_func_with_variable_args(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_core/runnables/config.py", line 428, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 117, in retrieve_hybrid_top_k
+    hybrid_retriever = load_index(config)
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/retrieval/search_index.py", line 23, in load_index
+    embedding_model = build_embedding_model(config["embedding"])
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/core/component_registry.py", line 53, in build_embedding_model
+    return embedding_cls(model_name=name, model_kwargs={"trust_remote_code": True})
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/langchain_huggingface/embeddings/huggingface.py", line 59, in __init__
+    self._client = sentence_transformers.SentenceTransformer(
+  File "/home/mallahova/miniconda3/envs/ragrepo/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 348, in __init__
+    self.to(device)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1340, in to
+    return self._apply(convert)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 900, in _apply
+    module._apply(fn)
+  [Previous line repeated 4 more times]
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 927, in _apply
+    param_applied = fn(param)
+  File "/home/mallahova/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1326, in convert
+    return t.to(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 3.71 GiB of which 2.56 MiB is free. Including non-PyTorch memory, this process has 3.69 GiB memory in use. Of the allocated memory 3.58 GiB is allocated by PyTorch, and 22.72 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 265, in <module>
+    main()
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 244, in main
+    phase1_results = phase_1_coarse_search(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/run_experiments.py", line 97, in phase_1_coarse_search
+    final_recall, average_latency = evaluate_recall_and_latency(
+  File "/home/mallahova/code/basics/projects/interview/RAGRepo/src/eval/evaluate_retrieval.py", line 45, in evaluate_recall_and_latency
+    time.sleep(60)
+KeyboardInterrupt

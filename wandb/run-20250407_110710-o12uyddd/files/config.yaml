@@ -1,0 +1,92 @@
+_wandb:
+    value:
+        cli_version: 0.19.9
+        m: []
+        python_version: 3.10.16
+        t:
+            "1":
+                - 1
+                - 55
+                - 86
+                - 95
+                - 96
+                - 105
+            "2":
+                - 1
+                - 5
+                - 11
+                - 49
+                - 51
+                - 53
+                - 55
+                - 75
+                - 86
+                - 95
+                - 96
+                - 105
+            "3":
+                - 2
+                - 13
+                - 16
+                - 23
+                - 55
+            "4": 3.10.16
+            "5": 0.19.9
+            "8":
+                - 5
+            "12": 0.19.9
+            "13": linux-x86_64
+chunking:
+    value:
+        chunk_overlap: 0
+        chunk_size: 500
+        splitter:
+            class: RecursiveCharacterTextSplitter
+embedding:
+    value:
+        class: HuggingFaceEmbeddings
+        name: Snowflake/snowflake-arctic-embed-l-v2.0
+filter:
+    value:
+        exclude_dirs:
+            - build
+            - dist
+            - node_modules
+            - vendor
+            - bin
+            - __pycache__
+            - docs/zhHans
+        exclude_extensions:
+            - .png
+            - .jpg
+            - .jpeg
+            - .gif
+            - .ico
+            - .svg
+            - .bin
+            - .exe
+            - .dll
+            - .so
+            - .dylib
+            - .apk
+            - .ipk
+            - .zip
+            - .tar
+            - .gz
+            - .o
+            - .obj
+            - .class
+            - .pyc
+generator:
+    value:
+        class: ChatOpenAI
+        name: gpt-4o-mini
+        temperature: 0.3
+reranker:
+    value: null
+retriever:
+    value:
+        dense_weight: 1
+        query_expansion: false
+        top_k: 10
+        use_reranker: false

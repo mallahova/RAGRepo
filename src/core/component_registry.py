@@ -1,35 +1,32 @@
-from langchain_community.embeddings import (
-    OpenAIEmbeddings,
-    SentenceTransformerEmbeddings,
-)
+# Embedding models
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
+from src.core.custom_wrappers.gemini_wrapper import GeminiEmbeddings
 
+# Text splitters
 from langchain.text_splitter import (
     RecursiveCharacterTextSplitter,
     CharacterTextSplitter,
     TokenTextSplitter,
 )
-from langchain_community.embeddings import (
-    #  InstructorEmbeddings,
-    HuggingFaceInstructEmbeddings,
-)
 
+# Rerankers
 from langchain_community.cross_encoders import HuggingFaceCrossEncoder
-from langchain.retrievers.document_compressors import CrossEncoderReranker
+from langchain_cohere import CohereRerank
 
-from langchain_community.llms import OpenAI, HuggingFaceHub
-from langchain_community.chat_models import ChatOpenAI
-from langchain_community.llms import LlamaCpp
+# Generative LLMs
+from langchain_openai import ChatOpenAI
 
-from src.core.custom_wrappers.gemini_wrapper import GeminiEmbeddings
+
+# from langchain_community.llms import OpenAI, HuggingFaceHub
+# from langchain_community.chat_models import ChatOpenAI
+# from langchain_community.llms import LlamaCpp
+
 
 EMBEDDINGS = {
     "HuggingFaceEmbeddings": HuggingFaceEmbeddings,
-    "GeminiEmbeddings": GeminiEmbeddings,
-    # "SentenceTransformerEmbeddings": SentenceTransformerEmbeddings,
-    #  "InstructorEmbeddings": InstructorEmbeddings,
-    # "HuggingFaceInstructEmbeddings": HuggingFaceInstructEmbeddings,
     "OpenAIEmbeddings": OpenAIEmbeddings,
+    "GeminiEmbeddings": GeminiEmbeddings,
 }
 
 
@@ -56,7 +53,7 @@ def build_embedding_model(model_config: dict):
         return embedding_cls(model_name=name, model_kwargs={"trust_remote_code": True})
 
     if class_name == "GeminiEmbeddings":
-        return embedding_cls(model=name)
+        return embedding_cls(model_name=name)
 
     raise ValueError(f"Unknown or unsupported embedding class: {class_name}")
 
@@ -68,16 +65,12 @@ SPLITTERS = {
 }
 
 RERANKERS = {
-    # "CohereRerank": CohereRerank,
+    "CohereRerank": CohereRerank,
     "HuggingFaceCrossEncoder": HuggingFaceCrossEncoder,
 }
 
 GENERATORS = {
-    "OpenAI": OpenAI,
     "ChatOpenAI": ChatOpenAI,
-    # "GeminiChat": GeminiChat,
-    "HuggingFaceHub": HuggingFaceHub,
-    "LlamaCpp": LlamaCpp,
 }
 
 INDEX_DIR = "src/data/index"

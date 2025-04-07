@@ -1,0 +1,16 @@
+{"time":"2025-04-07T12:34:44.885776041+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/mallahova/code/basics/projects/interview/RAGRepo/wandb/run-20250407_123444-cedyk02l/logs/debug-core.log"}
+{"time":"2025-04-07T12:34:45.272647718+02:00","level":"INFO","msg":"created new stream","id":"cedyk02l"}
+{"time":"2025-04-07T12:34:45.272670864+02:00","level":"INFO","msg":"stream: started","id":"cedyk02l"}
+{"time":"2025-04-07T12:34:45.27268275+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"cedyk02l"}
+{"time":"2025-04-07T12:34:45.272690776+02:00","level":"INFO","msg":"sender: started","stream_id":"cedyk02l"}
+{"time":"2025-04-07T12:34:45.272706838+02:00","level":"INFO","msg":"handler: started","stream_id":"cedyk02l"}
+{"time":"2025-04-07T12:34:45.577077057+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-07T12:34:55.777222879+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-07T12:34:55.777254745+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-07T12:34:56.760290667+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-07T12:34:56.778948708+02:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 0-0, summary, console lines 0-1","runtime_seconds":0.018466288}],"total_operations":1}}
+{"time":"2025-04-07T12:34:57.178799184+02:00","level":"INFO","msg":"stream: closing","id":"cedyk02l"}
+{"time":"2025-04-07T12:34:57.17880989+02:00","level":"INFO","msg":"handler: closed","stream_id":"cedyk02l"}
+{"time":"2025-04-07T12:34:57.178818441+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"cedyk02l"}
+{"time":"2025-04-07T12:34:57.17883049+02:00","level":"INFO","msg":"sender: closed","stream_id":"cedyk02l"}
+{"time":"2025-04-07T12:34:57.178853634+02:00","level":"INFO","msg":"stream: closed","id":"cedyk02l"}
