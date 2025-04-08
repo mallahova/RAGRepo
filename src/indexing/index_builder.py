@@ -22,7 +22,15 @@ logger = logging.getLogger(__name__)
 
 
 class IndexBuilder:
+    """
+    Builds FAISS and BM25 indexes from a GitHub repo using code-aware chunking.
+    """
+
     def __init__(self, config: dict):
+        """
+        Args:
+            config (dict): Contains settings for filtering, chunking, and embedding.
+        """
         self.config = config
         self.file_filter = make_file_filter(config.get("filter", {}))
         self.splitter_cfg = config["chunking"]

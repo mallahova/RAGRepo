@@ -10,13 +10,32 @@ from src.core.loaders.rag_loaders import load_index
 
 
 class RetrievalEvaluator:
+    """
+    Evaluates the performance of a retrieval pipeline using Recall@k and latency.
+    """
+
     def __init__(self, config: dict, low_vram: bool = False):
+        """
+        Args:
+            config (dict): Retrieval and model configuration.
+            low_vram (bool): If True, only one model is loaded to VRAM at a time.
+        """
         self.config = config
         self.low_vram = low_vram
         self.retriever = None if low_vram else load_index(self.config)
         self.retrieval_chain = RetrievalChainBuilder(self.config).build_chain()
 
     def evaluate(self, eval_data: list, k: int = 10):
+        """
+        Evaluates recall@k and average retrieval latency.
+
+        Args:
+            eval_data (list): List of dicts with keys "question" and "files".
+            k (int): Top-k documents to consider for recall.
+
+        Returns:
+            Tuple[float, float]: (Recall@k, Average Latency)
+        """
         total_recall = 0.0
         total_latency = 0.0
         num_queries = 0
@@ -73,36 +92,3 @@ class RetrievalEvaluator:
                 break
 
         return top_k_files
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Evaluate Recall@10 for a RAG system.")
-    parser.add_argument(
-        "--dataset_path",
-        type=str,
-        default="src/data/eval/escrcpy-commits-generated.json",
-        help="Path to the evaluation dataset JSON file.",
-    )
-    parser.add_argument(
-        "--config_path",
-        type=str,
-        default="config/base.yaml",
-        help="Path to the config file.",
-    )
-    parser.add_argument(
-        "--low_vram",
-        default=False,
-        action="store_true",
-        help="Enable low VRAM mode.",
-    )
-    args = parser.parse_args()
-
-    with open(args.dataset_path, "r") as f:
-        eval_data = json.load(f)
-
-    evaluator = RetrievalEvaluator(args.config_path, low_vram=args.low_vram)
-    evaluator.evaluate(eval_data)
-
-
-if __name__ == "__main__":
-    main()

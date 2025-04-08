@@ -10,10 +10,24 @@ from src.core.loaders.rag_loaders import load_index, load_generator, load_rerank
 
 
 class RetrievalChainBuilder:
+    """
+    Builds a retrieval chain with optional query expansion and reranking.
+    """
+
     def __init__(self, config: dict):
+        """
+        Args:
+            config (dict): Settings for retriever, reranker, and generator models.
+        """
         self.config = config
 
     def build_chain(self):
+        """
+        Returns a LangChain Runnable that performs:
+        - query expansion (optional)
+        - hybrid retrieval
+        - reranking (optional)
+        """
         steps = []
 
         if self.config["retriever"]["query_expansion"]:
